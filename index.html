@@ -1,647 +1,802 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>北陸名花之里之旅 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'nook-bg': '#F7F4EB',
-                        'nook-green': '#88AB8E',
-                        'nook-dark': '#6B5B45',
-                        'nook-card': '#FFFFFF',
-                        'nook-accent': '#E76F51',
-                    },
-                    boxShadow: {
-                        'soft': '4px 4px 0px #E0E5D5',
-                        'soft-hover': '2px 2px 0px #E0E5D5',
-                    },
-                    fontFamily: {
-                        'rounded': ['"M PLUS Rounded 1c"', 'sans-serif'],
-                    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>北陸名花之里之旅 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'nook-bg': '#F7F4EB',
+                    'nook-green': '#88AB8E',
+                    'nook-dark': '#6B5B45',
+                    'nook-card': '#FFFFFF',
+                    'nook-accent': '#E76F51',
+                },
+                boxShadow: {
+                    'soft': '4px 4px 0px #E0E5D5',
+                    'soft-hover': '2px 2px 0px #E0E5D5',
+                },
+                fontFamily: {
+                    'rounded': ['"M PLUS Rounded 1c"', 'sans-serif'],
                 }
             }
         }
-    </script>
+    }
+</script>
 
-    <style>
-        body {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            background-color: #F7F4EB;
-            background-image: radial-gradient(#E0E5D5 2px, transparent 2px);
-            background-size: 20px 20px;
-            color: #6B5B45;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .btn-press:active { transform: scale(0.95); box-shadow: 2px 2px 0px #E0E5D5 !important; transform: translate(2px, 2px); }
-        .btn-disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+<style>
+    body {
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        background-color: #F7F4EB;
+        background-image: radial-gradient(#E0E5D5 2px, transparent 2px);
+        background-size: 20px 20px;
+        color: #6B5B45;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .btn-press:active { transform: scale(0.95); box-shadow: 2px 2px 0px #E0E5D5 !important; transform: translate(2px, 2px); }
+    .btn-disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
-        .tab-content.active { display: block; }
+    .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .tab-content.active { display: block; }
 
-        .sortable-ghost { opacity: 0.4; background: #f0f0f0; border: 2px dashed #ccc; }
-        .sortable-drag { cursor: grabbing; opacity: 1; background: white; transform: rotate(2deg); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .edit-input { width: 100%; border-bottom: 1px dashed #88AB8E; background: transparent; outline: none; padding: 2px 0; color: #6B5B45; }
+    .edit-input:focus { border-bottom: 2px solid #88AB8E; }
+    
+    .login-overlay { position: fixed; inset: 0; background: #F7F4EB; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
 
-        .edit-input { width: 100%; border-bottom: 1px dashed #88AB8E; background: transparent; outline: none; padding: 2px 0; color: #6B5B45; }
-        .edit-input:focus { border-bottom: 2px solid #88AB8E; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-item.active i { color: #88AB8E; transform: scale(1.1); }
-        .nav-item.active span { color: #88AB8E; font-weight: bold; }
-        
-        /* Loading Spinner */
-        .spinner { border: 2px solid #f3f3f3; border-top: 2px solid #88AB8E; border-radius: 50%; width: 12px; height: 12px; animation: spin 1s linear infinite; display: inline-block; margin-right: 5px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .nav-item.active i { color: #88AB8E; transform: scale(1.1); }
+    .nav-item.active span { color: #88AB8E; font-weight: bold; }
+    
+    .spinner { border: 2px solid #f3f3f3; border-top: 2px solid #88AB8E; border-radius: 50%; width: 12px; height: 12px; animation: spin 1s linear infinite; display: inline-block; margin-right: 5px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
 </head>
 <body class="pb-24">
 
-    <header class="sticky top-0 z-40 bg-[#F7F4EB]/95 backdrop-blur-sm px-4 py-3 border-b border-[#E0E5D5] shadow-sm">
-        <div class="flex justify-between items-center">
-            <h1 class="text-lg font-bold text-nook-green tracking-wide truncate">
-                <i class="fa-solid fa-plane-departure mr-2"></i>北陸名花之里
-            </h1>
-            <div class="flex items-center gap-2">
-                <button onclick="loadFromCloud()" id="load-btn" class="bg-white px-2 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-purple-500 font-bold active:scale-95 transition cursor-pointer flex items-center justify-center min-w-[35px]" title="讀取雲端存檔">
-                    <i class="fa-solid fa-download text-sm"></i>
-                </button>
-                <button onclick="syncToCloud()" id="sync-btn" class="bg-white px-2 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-blue-500 font-bold active:scale-95 transition cursor-pointer flex items-center justify-center min-w-[35px]" title="上傳至雲端">
-                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
-                </button>
-                <button onclick="toggleEditMode()" id="edit-btn" class="bg-white px-3 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-gray-600 font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[60px] justify-center">
-                    <i class="fa-solid fa-pen mr-1"></i>編輯
-                </button>
+<!-- Login Screen -->
+<div id="login-screen" class="login-overlay">
+    <div class="bg-white p-8 rounded-3xl shadow-soft w-full max-w-sm border border-[#E0E5D5]">
+        <h1 class="text-2xl font-bold text-nook-green text-center mb-6">
+            <i class="fa-solid fa-plane-departure mr-2"></i>旅程登入
+        </h1>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-gray-500 mb-1">帳號 (Username)</label>
+                <input type="text" id="login-user" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 outline-none focus:border-nook-green transition">
             </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-500 mb-1">密碼 (Password)</label>
+                <input type="password" id="login-pass" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 outline-none focus:border-nook-green transition">
+            </div>
+            <button onclick="performLogin()" id="login-btn" class="w-full bg-nook-dark text-white font-bold py-3 rounded-xl shadow-soft btn-press mt-4">
+                進入 App
+            </button>
+            <p id="login-msg" class="text-center text-red-500 text-sm mt-2 h-5"></p>
         </div>
-    </header>
-
-    <main id="app" class="px-4 py-4 max-w-md mx-auto">
-        
-        <section id="view-plan" class="tab-content active">
-            <div class="flex justify-between items-center mb-3 px-1">
-                <div class="text-xs text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                    <span class="font-bold text-nook-green">導遊:</span> 林世豪 
-                    <a href="tel:0912576813" class="ml-1 text-blue-500 underline">0912-576-813</a>
-                </div>
-                <div id="clock" class="text-xs font-mono text-nook-dark font-bold">00:00</div>
-            </div>
-
-            <div id="header-cards"></div>
-            <div class="flex overflow-x-auto no-scrollbar gap-2 mb-4 pb-1 mt-6" id="day-tabs"></div>
-            <div id="itinerary-container" class="min-h-[300px]"></div>
-            
-            <div id="add-activity-btn" class="hidden mt-4 text-center">
-                <button onclick="addNewActivity()" class="bg-nook-green text-white px-4 py-2 rounded-xl shadow-soft btn-press text-sm font-bold w-full">
-                    <i class="fa-solid fa-plus mr-2"></i>新增行程項目
-                </button>
-            </div>
-        </section>
-
-        <section id="view-guide" class="tab-content">
-             <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-4">
-                <h2 class="font-bold mb-3 text-nook-green">景點地圖快速查</h2>
-                <div class="grid grid-cols-2 gap-3">
-                    <a href="https://www.google.com/maps/search/?api=1&query=...0" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-map-location-dot text-red-400 block mb-1 text-xl"></i>合掌村</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=...0" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-brands fa-envira text-green-600 block mb-1 text-xl"></i>兼六園</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=...1" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-cable-car text-blue-400 block mb-1 text-xl"></i>新穗高</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=...2" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-lightbulb text-yellow-400 block mb-1 text-xl"></i>名花之里</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-wallet" class="tab-content">
-             <div class="bg-nook-green p-5 rounded-2xl shadow-soft text-white mb-6">
-                <div class="flex justify-between items-end mb-2">
-                    <label class="text-xs opacity-80">日幣匯率 (可修改)</label>
-                    <div class="flex items-center">
-                        <span class="text-xs mr-1">x</span>
-                        <input type="number" id="exchange-rate" value="0.22" step="0.001" class="w-16 text-right text-nook-dark rounded px-1 py-0.5 text-sm font-bold bg-white" onchange="saveRate()">
-                    </div>
-                </div>
-                <div class="bg-white/20 rounded-xl p-3 mb-3">
-                    <input type="text" id="calc-input" placeholder="輸入算式 (如 500+200*3)" class="w-full bg-transparent text-right text-white text-xl font-mono placeholder-white/50 outline-none">
-                </div>
-                <div class="flex justify-between items-center">
-                    <div class="text-3xl font-bold font-mono">≈ <span id="calc-result-twd">0</span> <span class="text-sm">TWD</span></div>
-                    <button onclick="calculate()" class="bg-white text-nook-green px-4 py-2 rounded-lg font-bold shadow-sm btn-press">計算</button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6 transition-all duration-300" id="expense-form-card">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-gray-700 text-lg" id="expense-form-title">記一筆</h3>
-                    <button id="cancel-edit-btn" onclick="cancelEdit()" class="hidden text-xs text-gray-400 underline">取消編輯</button>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <input type="text" id="expense-item" placeholder="品項 (如: 拉麵)" class="border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-nook-green bg-gray-50">
-                    <input type="number" id="expense-jpy" placeholder="日幣金額" class="border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-nook-green bg-gray-50">
-                </div>
-                <div class="flex gap-3">
-                    <label class="flex-1 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg text-gray-400 cursor-pointer hover:bg-gray-50 h-12 transition relative">
-                        <i class="fa-solid fa-camera mr-2"></i>
-                        <span id="photo-label" class="text-xs">拍照/上傳</span>
-                        <input type="file" id="expense-photo" accept="image/*" class="hidden" onchange="handleWalletPhoto(this)">
-                    </label>
-                    <button id="save-expense-btn" onclick="addExpense()" class="flex-1 bg-nook-dark text-white rounded-lg font-bold shadow-soft btn-press h-12">儲存</button>
-                </div>
-            </div>
-
-            <h3 class="font-bold ml-2 mb-2 text-gray-600 text-lg">消費紀錄</h3>
-            <div id="expense-list" class="space-y-3 pb-10"></div>
-            <button onclick="clearExpenses()" class="w-full mt-4 text-xs text-gray-400 underline text-center block pb-4">清除所有記帳資料</button>
-        </section>
-
-        <section id="view-lists" class="tab-content">
-             <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6">
-                <h3 class="font-bold mb-3 text-nook-green"><i class="fa-solid fa-clipboard-check mr-2"></i>行前準備</h3>
-                <div id="checklist-container" class="space-y-2"></div>
-            </div>
-        </section>
-
-        <section id="view-info" class="tab-content">
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
-                    <i class="fa-solid fa-cloud-sun text-3xl text-blue-400 mb-2"></i><span class="font-bold text-gray-700">天氣預報</span>
-                </a>
-                <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
-                    <i class="fa-solid fa-qrcode text-3xl text-purple-500 mb-2"></i><span class="font-bold text-gray-700">Visit Japan</span>
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <div id="image-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/90 backdrop-blur-sm p-4" onclick="closeImageModal()">
-        <button class="absolute top-4 right-4 text-white text-2xl p-2"><i class="fa-solid fa-xmark"></i></button>
-        <img id="modal-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain">
     </div>
+</div>
 
-    <nav class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur border-t border-[#E0E5D5] pb-safe pt-2 px-2 z-50">
-        <div class="flex justify-around items-center max-w-md mx-auto">
-            <button onclick="switchTab('view-plan')" class="nav-item active flex flex-col items-center p-2 w-16 transition-all duration-300">
-                <i class="fa-solid fa-calendar-days text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">行程</span>
+<header class="sticky top-0 z-40 bg-[#F7F4EB]/95 backdrop-blur-sm px-4 py-3 border-b border-[#E0E5D5] shadow-sm">
+    <div class="flex justify-between items-center">
+        <h1 class="text-lg font-bold text-nook-green tracking-wide truncate flex items-center">
+            <i class="fa-solid fa-plane-departure mr-2"></i>
+            <span class="truncate">北陸之旅</span>
+            <span id="header-user-badge" class="ml-2 text-[10px] bg-nook-green text-white px-2 py-0.5 rounded-full opacity-0"></span>
+        </h1>
+        <div class="flex items-center gap-2">
+            <button onclick="loadFromCloud()" id="load-btn" class="bg-white px-2 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-purple-500 font-bold active:scale-95 transition cursor-pointer flex items-center justify-center min-w-[35px]" title="讀取雲端存檔">
+                <i class="fa-solid fa-download text-sm"></i>
             </button>
-            <button onclick="switchTab('view-guide')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
-                <i class="fa-solid fa-book-open text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">導覽</span>
+            <button onclick="syncToCloud()" id="sync-btn" class="bg-white px-2 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-blue-500 font-bold active:scale-95 transition cursor-pointer flex items-center justify-center min-w-[35px]" title="上傳至雲端">
+                <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
             </button>
-            <button onclick="switchTab('view-wallet')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
-                <div class="bg-nook-green rounded-full w-12 h-12 flex items-center justify-center -mt-6 border-4 border-[#F7F4EB] shadow-md">
-                    <i class="fa-solid fa-wallet text-xl text-white"></i>
-                </div>
-            </button>
-            <button onclick="switchTab('view-lists')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
-                <i class="fa-solid fa-list-check text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">清單</span>
-            </button>
-            <button onclick="switchTab('view-info')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
-                <i class="fa-solid fa-circle-info text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">資訊</span>
+            <button onclick="toggleEditMode()" id="edit-btn" class="bg-white px-3 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] text-gray-600 font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[60px] justify-center">
+                <i class="fa-solid fa-pen mr-1"></i>編輯
             </button>
         </div>
-        <div class="h-4 w-full"></div> 
-    </nav>
+    </div>
+</header>
 
-    <script>
-        // ==========================================
-        // --- 設定區 (請填入 Google Script URL) ---
-        // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw2dL2WyiTVZ9W2E46PUCuAyF0IuCL0LGpc8OdF4VwxVgJqKtlb1o9Yc_4Ydz9gOyalVg/exec";
+<main id="app" class="px-4 py-4 max-w-md mx-auto">
+    
+    <section id="view-plan" class="tab-content active">
+        <div class="flex justify-between items-center mb-3 px-1">
+            <div id="clock" class="text-xs font-mono text-nook-dark font-bold ml-auto">00:00</div>
+        </div>
 
-        // ==========================================
-        // --- 資料核心 ---
-        // ==========================================
+        <div id="header-cards"></div>
+        <div class="flex overflow-x-auto no-scrollbar gap-2 mb-4 pb-1 mt-6" id="day-tabs"></div>
+        <div id="itinerary-container" class="min-h-[300px]"></div>
         
-        const DEFAULT_DATA = {
-            checklist: ["護照", "網卡", "行動電源(隨身)", "日幣", "常備藥", "牙刷牙膏"],
-            rate: 0.22,
-            expenses: [], 
-            days: [
-              {
-                id: "d1", day: "D1", date: "01/02 (五)", location: "愛知縣",
-                activities: [
-                  { id: "a1-1", time: "06:30", title: "桃機一航廈泰獅櫃台集合", type: "transport", city: "桃園", desc: "找導遊: 林世豪，泰獅航空 2號櫃台" },
-                  { id: "a1-2", time: "09:00", title: "搭乘泰獅航空 SL398", type: "transport", city: "桃園", desc: "飛往名古屋" },
-                  { id: "a1-3", time: "12:40", title: "抵達中部國際機場", type: "transport", city: "常滑", desc: "出關領行李" },
-                  { id: "a1-4", time: "15:00", title: "名古屋市區 / 飯店 Check-in", type: "stay", city: "名古屋", desc: "住宿: 名古屋希爾頓酒店" }
-                ]
-              },
-              {
-                id: "d2", day: "D2", date: "01/03 (六)", location: "岐阜縣",
-                activities: [
-                  { id: "a2-1", time: "09:00", title: "惠那峽展望台", type: "spot", city: "惠那", desc: "大自然侵蝕而形成的斷崖絕壁，奇岩怪石" },
-                  { id: "a2-2", time: "12:00", title: "馬籠宿或妻籠宿", type: "spot", city: "中津川", desc: "德川御宿古街散策，江戶時代宿驛風情" },
-                  { id: "a2-3", time: "17:00", title: "入住溫泉飯店", type: "stay", city: "御岳", desc: "住宿: 御岳 Golf & Resort (享受溫泉與會席料理)" }
-                ]
-              },
-              {
-                id: "d3", day: "D3", date: "01/04 (日)", location: "岐阜縣",
-                activities: [
-                  { id: "a3-1", time: "09:00", title: "新穗高雙層空中纜車", type: "spot", city: "高山", highlight: true, desc: "日本最早雙層纜車，眺望阿爾卑斯山雪景 (新穗高溫泉-西穂高口)" },
-                  { id: "a3-2", time: "13:00", title: "飛驒高山小京都", type: "spot", city: "高山", desc: "米其林三星景點：古之町並・上三之町散策" },
-                  { id: "a3-3", time: "17:00", title: "入住飛驒高山溫泉", type: "stay", city: "高山", desc: "住宿: Route INN Grantia 飛驒高山" }
-                ]
-              },
-              {
-                id: "d4", day: "D4", date: "01/05 (一)", location: "北陸",
-                activities: [
-                  { id: "a4-1", time: "09:00", title: "庄川峽遊船", type: "spot", city: "富山", desc: "北陸絕景，搭船欣賞幽然深遂的溪谷與雪景" },
-                  { id: "a4-2", time: "12:00", title: "近江町市場", type: "food", city: "金澤", desc: "金澤廚房，海鮮巡禮 (午餐自理)" },
-                  { id: "a4-3", time: "14:00", title: "兼六園 & 傘松雪吊", type: "spot", city: "金澤", highlight: true, desc: "日本三大名園之一，冬季限定雪吊美景" },
-                  { id: "a4-4", time: "16:00", title: "東茶屋街", type: "spot", city: "金澤", desc: "國家指定文化財，江戶時代茶屋街風情" },
-                  { id: "a4-5", time: "18:00", title: "入住金澤飯店", type: "stay", city: "金澤", desc: "住宿: 金澤 T-MARK HOTEL" }
-                ]
-              },
-              {
-                id: "d5", day: "D5", date: "01/06 (二)", location: "岐阜/三重",
-                activities: [
-                  { id: "a5-1", time: "09:00", title: "白川鄉荻町合掌村", type: "spot", city: "白川鄉", highlight: true, desc: "世界文化遺產，冬季宛如童話薑餅屋般雪景" },
-                  { id: "a5-2", time: "13:00", title: "免稅店", type: "shopping", city: "名古屋", desc: "購物行程" },
-                  { id: "a5-3", time: "14:30", title: "三井 OUTLET 爵士之夢長島", type: "shopping", city: "桑名", desc: "日本最大 Outlet 集團，瘋狂血拼" },
-                  { id: "a5-4", time: "17:30", title: "名花之里夢幻點燈", type: "spot", city: "桑名", highlight: true, desc: "日本最大規模 LED 彩燈慶典 (光之迴廊)" },
-                  { id: "a5-5", time: "20:00", title: "入住名古屋飯店", type: "stay", city: "名古屋", desc: "住宿: 名古屋 Centmain 飯店" }
-                ]
-              },
-              {
-                id: "d6", day: "D6", date: "01/07 (三)", location: "愛知縣",
-                activities: [
-                  { id: "a6-1", time: "09:00", title: "自由活動", type: "spot", city: "名古屋", desc: "最後補貨或休息" },
-                  { id: "a6-2", time: "11:30", title: "前往中部國際機場", type: "transport", city: "常滑", desc: "辦理登機手續" },
-                  { id: "a6-3", time: "13:40", title: "搭乘泰獅航空 SL399", type: "transport", city: "常滑", desc: "飛往桃園" },
-                  { id: "a6-4", time: "16:00", title: "抵達桃園機場", type: "transport", city: "桃園", desc: "溫暖的家" }
-                ]
-              }
+        <div id="add-activity-btn" class="hidden mt-4 text-center">
+            <button onclick="addNewActivity()" class="bg-nook-green text-white px-4 py-2 rounded-xl shadow-soft btn-press text-sm font-bold w-full">
+                <i class="fa-solid fa-plus mr-2"></i>新增行程項目
+            </button>
+        </div>
+    </section>
+
+    <section id="view-guide" class="tab-content">
+         <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-4">
+            <h2 class="font-bold mb-3 text-nook-green">景點地圖快速查</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="https://www.google.com/maps/search/?api=1&query=白川鄉合掌村" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-map-location-dot text-red-400 block mb-1 text-xl"></i>合掌村</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=金澤兼六園" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-brands fa-envira text-green-600 block mb-1 text-xl"></i>兼六園</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=新穗高纜車" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-cable-car text-blue-400 block mb-1 text-xl"></i>新穗高</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=名花之里" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-lightbulb text-yellow-400 block mb-1 text-xl"></i>名花之里</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-wallet" class="tab-content">
+         <div class="bg-nook-green p-5 rounded-2xl shadow-soft text-white mb-6">
+            <div class="flex justify-between items-end mb-2">
+                <label class="text-xs opacity-80">日幣匯率</label>
+                <div class="flex items-center">
+                    <span class="text-xs mr-1">x</span>
+                    <input type="number" id="exchange-rate" value="0.22" step="0.001" class="w-16 text-right text-nook-dark rounded px-1 py-0.5 text-sm font-bold bg-white" onchange="saveRate()">
+                </div>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 mb-3">
+                <input type="text" id="calc-input" placeholder="輸入算式" class="w-full bg-transparent text-right text-white text-xl font-mono placeholder-white/50 outline-none">
+            </div>
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-bold font-mono">≈ <span id="calc-result-twd">0</span> <span class="text-sm">TWD</span></div>
+                <button onclick="calculate()" class="bg-white text-nook-green px-4 py-2 rounded-lg font-bold shadow-sm btn-press">計算</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6 transition-all duration-300" id="expense-form-card">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-gray-700 text-lg" id="expense-form-title">
+                    <i class="fa-solid fa-user-tag text-nook-accent mr-1"></i>記一筆
+                </h3>
+                <button id="cancel-edit-btn" onclick="cancelEdit()" class="hidden text-xs text-gray-400 underline">取消編輯</button>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <input type="text" id="expense-item" placeholder="品項" class="border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-nook-green bg-gray-50">
+                <input type="number" id="expense-jpy" placeholder="¥ 金額" class="border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-nook-green bg-gray-50">
+            </div>
+            <div class="flex gap-3">
+                <label class="flex-1 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg text-gray-400 cursor-pointer hover:bg-gray-50 h-12 transition relative">
+                    <i class="fa-solid fa-camera mr-2"></i>
+                    <span id="photo-label" class="text-xs">照片</span>
+                    <input type="file" id="expense-photo" accept="image/*" class="hidden" onchange="handleWalletPhoto(this)">
+                </label>
+                <button id="save-expense-btn" onclick="addExpense()" class="flex-1 bg-nook-dark text-white rounded-lg font-bold shadow-soft btn-press h-12">儲存</button>
+            </div>
+        </div>
+
+        <h3 class="font-bold ml-2 mb-2 text-gray-600 text-lg">消費紀錄</h3>
+        <div id="expense-list" class="space-y-3 pb-10"></div>
+    </section>
+
+    <section id="view-lists" class="tab-content">
+         <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-nook-green"><i class="fa-solid fa-clipboard-check mr-2"></i>行前準備</h3>
+                <div id="checklist-controls" class="hidden">
+                    <button onclick="addChecklistItem()" class="bg-nook-green text-white w-7 h-7 rounded-full text-xs shadow-sm"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            <div id="checklist-container" class="space-y-2"></div>
+        </div>
+    </section>
+
+    <section id="view-info" class="tab-content">
+        <!-- (Info Section 省略，保持原樣) -->
+         <div class="grid grid-cols-2 gap-4 mb-6">
+            <a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
+                <i class="fa-solid fa-cloud-sun text-3xl text-blue-400 mb-2"></i><span class="font-bold text-gray-700">天氣預報</span>
+            </a>
+            <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
+                <i class="fa-solid fa-qrcode text-3xl text-purple-500 mb-2"></i><span class="font-bold text-gray-700">Visit Japan</span>
+            </a>
+        </div>
+    </section>
+
+</main>
+
+<div id="image-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/90 backdrop-blur-sm p-4" onclick="closeImageModal()">
+    <button class="absolute top-4 right-4 text-white text-2xl p-2"><i class="fa-solid fa-xmark"></i></button>
+    <img id="modal-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain">
+</div>
+
+<nav class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur border-t border-[#E0E5D5] pb-safe pt-2 px-2 z-50">
+    <div class="flex justify-around items-center max-w-md mx-auto">
+        <button onclick="switchTab('view-plan')" class="nav-item active flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <i class="fa-solid fa-calendar-days text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">行程</span>
+        </button>
+        <button onclick="switchTab('view-guide')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <i class="fa-solid fa-book-open text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">導覽</span>
+        </button>
+        <button onclick="switchTab('view-wallet')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <div class="bg-nook-green rounded-full w-12 h-12 flex items-center justify-center -mt-6 border-4 border-[#F7F4EB] shadow-md">
+                <i class="fa-solid fa-wallet text-xl text-white"></i>
+            </div>
+        </button>
+        <button onclick="switchTab('view-lists')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <i class="fa-solid fa-list-check text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">清單</span>
+        </button>
+        <button onclick="switchTab('view-info')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <i class="fa-solid fa-circle-info text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">資訊</span>
+        </button>
+    </div>
+    <div class="h-4 w-full"></div> 
+</nav>
+
+<script>
+    // ==========================================
+    // --- 設定區 ---
+    // ==========================================
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw2dL2WyiTVZ9W2E46PUCuAyF0IuCL0LGpc8OdF4VwxVgJqKtlb1o9Yc_4Ydz9gOyalVg/exec";
+
+    // ==========================================
+    // --- 資料核心 ---
+    // ==========================================
+    
+    // Default data structure - Initialized with full itinerary
+    const DEFAULT_DATA = {
+        checklist: ["護照", "網卡", "行動電源(隨身)", "日幣", "常備藥", "牙刷牙膏", "禦寒衣物", "手套/圍巾", "太陽眼鏡"],
+        rate: 0.22,
+        expenses: [], 
+        days: [
+          {
+            id: "d1", day: "D1", date: "01/02 (五)", location: "愛知縣",
+            activities: [
+              { id: "a1-1", time: "06:30", title: "桃機一航廈集合", type: "transport", city: "桃園", desc: "泰獅航空 2號櫃台集合 (導遊：林世豪)" },
+              { id: "a1-2", time: "09:00", title: "搭乘泰獅 SL398", type: "transport", city: "桃園", desc: "飛往名古屋中部國際機場" },
+              { id: "a1-3", time: "12:40", title: "抵達名古屋", type: "transport", city: "常滑", desc: "辦理入境手續" },
+              { id: "a1-4", time: "15:00", title: "名古屋市區觀光", type: "spot", city: "名古屋", desc: "自由探索或飯店休息" },
+              { id: "a1-5", time: "18:00", title: "入住飯店", type: "stay", city: "名古屋", desc: "住宿: 名古屋希爾頓酒店 (Nagoya Hilton)" }
             ]
+          },
+          {
+            id: "d2", day: "D2", date: "01/03 (六)", location: "岐阜縣",
+            activities: [
+              { id: "a2-1", time: "09:00", title: "惠那峽展望台", type: "spot", city: "惠那", desc: "大自然侵蝕而形成的斷崖絕壁，奇岩怪石" },
+              { id: "a2-2", time: "12:00", title: "馬籠宿或妻籠宿", type: "spot", city: "中津川", desc: "江戶時代宿驛風情，古街散策" },
+              { id: "a2-3", time: "17:00", title: "入住溫泉飯店", type: "stay", city: "御岳", desc: "住宿: 御岳 Golf & Resort (享用會席料理)" }
+            ]
+          },
+          {
+            id: "d3", day: "D3", date: "01/04 (日)", location: "岐阜縣",
+            activities: [
+              { id: "a3-1", time: "09:00", title: "新穗高雙層纜車", type: "spot", city: "高山", highlight: true, desc: "日本最早雙層纜車，眺望阿爾卑斯山雪景 (白銀雪遊廣場)" },
+              { id: "a3-2", time: "13:00", title: "飛驒高山小京都", type: "spot", city: "高山", desc: "上三之町散策 (古之町並)，米其林三星景點" },
+              { id: "a3-3", time: "17:00", title: "入住高山溫泉", type: "stay", city: "高山", desc: "住宿: Route INN Grantia 飛驒高山" }
+            ]
+          },
+          {
+            id: "d4", day: "D4", date: "01/05 (一)", location: "北陸",
+            activities: [
+              { id: "a4-1", time: "09:00", title: "庄川峽遊船", type: "spot", city: "富山", desc: "搭船欣賞幽然深遂的溪谷與雪景" },
+              { id: "a4-2", time: "12:00", title: "近江町市場", type: "food", city: "金澤", desc: "金澤廚房，海鮮巡禮 (午餐自理)" },
+              { id: "a4-3", time: "14:00", title: "兼六園 & 傘松雪吊", type: "spot", city: "金澤", highlight: true, desc: "日本三大名園之一，冬季限定雪吊美景" },
+              { id: "a4-4", time: "16:00", title: "東茶屋街", type: "spot", city: "金澤", desc: "江戶時代茶屋街風情，國家指定文化財" },
+              { id: "a4-5", time: "18:00", title: "入住金澤飯店", type: "stay", city: "金澤", desc: "住宿: 金澤 T-MARK HOTEL" }
+            ]
+          },
+          {
+            id: "d5", day: "D5", date: "01/06 (二)", location: "三重縣",
+            activities: [
+              { id: "a5-1", time: "09:00", title: "白川鄉合掌村", type: "spot", city: "白川鄉", highlight: true, desc: "世界文化遺產，夢幻童話薑餅屋雪景" },
+              { id: "a5-2", time: "13:00", title: "免稅店", type: "shopping", city: "名古屋", desc: "購物行程" },
+              { id: "a5-3", time: "14:30", title: "爵士之夢長島 Outlet", type: "shopping", city: "桑名", desc: "三井 OUTLET PARK，瘋狂血拼" },
+              { id: "a5-4", time: "17:30", title: "名花之里夢幻點燈", type: "spot", city: "桑名", highlight: true, desc: "日本最大規模 LED 彩燈慶典 (光之迴廊)" },
+              { id: "a5-5", time: "20:00", title: "入住名古屋飯店", type: "stay", city: "名古屋", desc: "住宿: 名古屋 Centmain 飯店" }
+            ]
+          },
+          {
+            id: "d6", day: "D6", date: "01/07 (三)", location: "愛知縣",
+            activities: [
+              { id: "a6-1", time: "09:00", title: "自由活動", type: "spot", city: "名古屋", desc: "最後補貨或休息" },
+              { id: "a6-2", time: "11:30", title: "前往中部國際機場", type: "transport", city: "常滑", desc: "辦理登機手續" },
+              { id: "a6-3", time: "13:40", title: "搭乘泰獅 SL399", type: "transport", city: "常滑", desc: "飛往桃園" },
+              { id: "a6-4", time: "16:00", title: "抵達桃園機場", type: "transport", city: "桃園", desc: "溫暖的家" }
+            ]
+          }
+        ]
+    };
+
+    let appData = {};
+    let currentUser = null;
+    let currentDayIndex = 0;
+    let isEditMode = false;
+    let sortableInstance = null;
+    let tempWalletPhoto = null;
+    let editingExpenseId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        checkLoginState();
+    });
+
+    // --- Login Logic ---
+    function checkLoginState() {
+        const savedUser = localStorage.getItem('travelApp_user');
+        if (savedUser) {
+            currentUser = savedUser;
+            initApp();
+        } else {
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+    }
+
+    function performLogin() {
+        const u = document.getElementById('login-user').value;
+        const p = document.getElementById('login-pass').value;
+        const btn = document.getElementById('login-btn');
+        const msg = document.getElementById('login-msg');
+        
+        if (!u || !p) { msg.innerText = "請輸入帳號密碼"; return; }
+        
+        // 如果還沒設定 URL，允許直接登入測試
+        if (GAS_API_URL.includes("請在此填入")) {
+             alert("測試模式：請先設定 GAS URL 才能使用完整驗證功能。目前以 'admin' 登入。");
+             completeLogin('admin');
+             return;
+        }
+
+        btn.innerText = "驗證中...";
+        btn.disabled = true;
+
+        fetch(GAS_API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'login', username: u, password: p })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                completeLogin(data.username);
+            } else {
+                msg.innerText = data.message;
+                btn.innerText = "進入 App";
+                btn.disabled = false;
+            }
+        })
+        .catch(err => {
+            msg.innerText = "連線錯誤";
+            btn.innerText = "進入 App";
+            btn.disabled = false;
+        });
+    }
+
+    function completeLogin(username) {
+        currentUser = username;
+        localStorage.setItem('travelApp_user', username);
+        document.getElementById('login-screen').style.display = 'none';
+        initApp();
+    }
+    
+    function logout() {
+        localStorage.removeItem('travelApp_user');
+        location.reload();
+    }
+
+    function initApp() {
+        loadData();
+        renderHeaderInfo();
+        renderDayTabs();
+        renderItinerary();
+        loadChecklist();
+        loadExpenses();
+        document.getElementById('exchange-rate').value = appData.rate || 0.22;
+        
+        // 更新 UI 顯示使用者
+        const badge = document.getElementById('header-user-badge');
+        badge.innerText = currentUser;
+        badge.classList.remove('opacity-0');
+        
+        // 時間更新
+        const updateClock = () => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:false}); };
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+
+    // --- 雲端同步 ---
+    function syncToCloud() {
+        if (GAS_API_URL.includes("請在此填入")) { alert("請先設定 URL"); return; }
+        const btn = document.getElementById('sync-btn');
+        const icon = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner"></span>';
+        
+        let cleanData = JSON.parse(JSON.stringify(appData));
+        // Remove heavy images for sync
+        cleanData.days.forEach(day => { if(day.activities) day.activities.forEach(act => delete act.image); });
+        if(cleanData.expenses) cleanData.expenses.forEach(ex => delete ex.photo);
+
+        fetch(GAS_API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'save_all', appData: cleanData })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("✅ 上傳成功！");
+            btn.innerHTML = icon;
+        })
+        .catch(err => {
+            alert("❌ 上傳失敗：" + err);
+            btn.innerHTML = icon;
+        });
+    }
+
+    function loadFromCloud() {
+        if (GAS_API_URL.includes("請在此填入")) { alert("請先設定 URL"); return; }
+        if(!confirm("從雲端讀取？本地變更將遺失。")) return;
+
+        const btn = document.getElementById('load-btn');
+        const icon = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner"></span>';
+
+        fetch(GAS_API_URL + '?action=get_all')
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success' && data.appData) {
+                appData = data.appData;
+                if (!appData.checklist) appData.checklist = DEFAULT_DATA.checklist; // 確保有清單
+                saveData();
+                renderItinerary();
+                renderDayTabs();
+                loadChecklist();
+                
+                // Merge expenses logic if needed, currently we prioritize cloud expenses if fetched
+                if (data.expenses && data.expenses.length > 0) {
+                   // 雲端只有資料，沒有完整ID結構，這裡做個簡單 mapping 讓本地能用
+                   appData.expenses = data.expenses.map((e, idx) => ({
+                       id: Date.now() + idx, // Fake ID
+                       item: e.item,
+                       jpy: e.jpy,
+                       user: e.user,
+                       date: e.date,
+                       note: e.note
+                   }));
+                   loadExpenses();
+                }
+                alert("✅ 同步完成！");
+            }
+            btn.innerHTML = icon;
+        })
+        .catch(err => {
+            alert("❌ 失敗：" + err);
+            btn.innerHTML = icon;
+        });
+    }
+
+    // --- LocalStorage ---
+    function loadData() {
+        const saved = localStorage.getItem('travelApp_data_v5'); 
+        if (saved) {
+            appData = JSON.parse(saved);
+            if (!appData.expenses) appData.expenses = [];
+            if (!appData.rate) appData.rate = 0.22;
+            if (!appData.checklist) appData.checklist = DEFAULT_DATA.checklist;
+        } else {
+            appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+            saveData();
+        }
+    }
+    function saveData() { localStorage.setItem('travelApp_data_v5', JSON.stringify(appData)); }
+
+    // --- Wallet Logic (User Aware) ---
+    function saveRate() {
+        appData.rate = document.getElementById('exchange-rate').value;
+        saveData();
+        loadExpenses();
+    }
+    function calculate() {
+        const val = document.getElementById('calc-input').value;
+        try {
+            const res = Math.round(eval(val.replace(/x/gi, '*')) * appData.rate);
+            document.getElementById('calc-result-twd').innerText = res;
+        } catch(e) { alert('算式錯誤'); }
+    }
+    function handleWalletPhoto(input) {
+         if (input.files && input.files[0]) {
+            const label = document.getElementById('photo-label');
+            const btn = document.getElementById('save-expense-btn');
+            label.innerText = "...";
+            btn.disabled = true;
+            btn.classList.add('btn-disabled');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const maxWidth = 800; 
+                    const scaleSize = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scaleSize;
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    tempWalletPhoto = canvas.toDataURL('image/jpeg', 0.6);
+                    label.innerText = "OK";
+                    label.classList.add('text-nook-green', 'font-bold');
+                    btn.disabled = false;
+                    btn.classList.remove('btn-disabled');
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    function addExpense() {
+        const item = document.getElementById('expense-item').value;
+        const jpy = document.getElementById('expense-jpy').value;
+        if(!item || !jpy) { alert("請輸入項目與金額"); return; }
+        
+        const expenseData = {
+            date: new Date().toLocaleDateString(),
+            item: item,
+            jpy: jpy,
+            twd: Math.round(jpy * appData.rate),
+            note: 'User Upload',
+            user: currentUser 
         };
 
-        let appData = {};
-        let currentDayIndex = 0;
-        let isEditMode = false;
-        let sortableInstance = null;
-        let tempWalletPhoto = null;
-        let editingExpenseId = null;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            renderHeaderInfo();
-            renderDayTabs();
-            renderItinerary();
-            loadChecklist();
-            loadExpenses();
-            document.getElementById('exchange-rate').value = appData.rate || 0.22;
-            updateClock();
-            setInterval(updateClock, 1000);
-        });
-
-        // --- 雲端同步 (上傳) ---
-        function syncToCloud() {
-            if (GAS_API_URL.includes("請在此填入")) {
-                alert("請先在程式碼中設定 Google Script URL！");
-                return;
+        if (editingExpenseId) {
+            const idx = appData.expenses.findIndex(e => e.id === editingExpenseId);
+            if (idx !== -1) {
+                appData.expenses[idx].item = item;
+                appData.expenses[idx].jpy = parseInt(jpy);
             }
-            const btn = document.getElementById('sync-btn');
-            const icon = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner"></span>';
+            cancelEdit();
+        } else {
+            appData.expenses.unshift({
+                id: Date.now(),
+                ...expenseData,
+                photo: tempWalletPhoto
+            });
             
-            let cleanData = JSON.parse(JSON.stringify(appData));
-            // 為了不讓 Base64 圖片塞爆試算表，複製一份並移除圖片字串
-            cleanData.days.forEach(day => {
-                day.activities.forEach(act => delete act.image);
-            });
-            cleanData.expenses.forEach(ex => delete ex.photo);
-
-            fetch(GAS_API_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'save_all', appData: cleanData })
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert("✅ 上傳成功！他人可按「讀取」按鈕同步。");
-                btn.innerHTML = icon;
-            })
-            .catch(err => {
-                alert("❌ 上傳失敗：" + err);
-                btn.innerHTML = icon;
-            });
-        }
-
-        // --- 雲端讀取 (下載) ---
-        function loadFromCloud() {
-            if (GAS_API_URL.includes("請在此填入")) {
-                alert("請先在程式碼中設定 Google Script URL！");
-                return;
+            if (!GAS_API_URL.includes("請在此填入")) {
+                fetch(GAS_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'add_expense', ...expenseData })
+                }).catch(e => console.log("Sync Error", e));
             }
-            if(!confirm("確定要從雲端讀取？這會覆蓋您目前的行程變更。")) return;
 
-            const btn = document.getElementById('load-btn');
-            const icon = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner"></span>';
-
-            fetch(GAS_API_URL + '?action=get_all')
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success' && data.appData) {
-                    appData = data.appData;
-                    // 若雲端沒記帳資料，保留本地的（避免誤刪）
-                    if (!appData.expenses) appData.expenses = [];
-                    saveData();
-                    renderItinerary();
-                    renderDayTabs(); // 重新渲染日期標籤
-                    loadExpenses(); // 重新載入記帳
-                    alert("✅ 同步完成！已載入最新行程。");
-                } else {
-                    alert("⚠️ 雲端似乎沒有資料，或讀取失敗。");
-                }
-                btn.innerHTML = icon;
-            })
-            .catch(err => {
-                alert("❌ 讀取失敗：" + err);
-                btn.innerHTML = icon;
-            });
-        }
-
-        // --- LocalStorage ---
-        function loadData() {
-            const saved = localStorage.getItem('travelApp_data_v11'); // 版本 v11
-            if (saved) {
-                appData = JSON.parse(saved);
-                if (!appData.expenses) appData.expenses = [];
-                if (!appData.rate) appData.rate = 0.22;
-            } else {
-                appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                saveData();
-            }
-        }
-        function saveData() { localStorage.setItem('travelApp_data_v11', JSON.stringify(appData)); }
-
-        // --- Wallet Logic ---
-        function saveRate() {
-            appData.rate = document.getElementById('exchange-rate').value;
-            saveData();
-            loadExpenses();
-        }
-        function calculate() {
-            const val = document.getElementById('calc-input').value;
-            try {
-                const res = Math.round(eval(val.replace(/x/gi, '*')) * appData.rate);
-                document.getElementById('calc-result-twd').innerText = res;
-            } catch(e) { alert('算式錯誤'); }
-        }
-        function handleWalletPhoto(input) {
-             if (input.files && input.files[0]) {
-                const label = document.getElementById('photo-label');
-                const btn = document.getElementById('save-expense-btn');
-                label.innerText = "處理中...";
-                btn.innerText = "處理中...";
-                btn.disabled = true;
-                btn.classList.add('btn-disabled');
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const maxWidth = 800; 
-                        const scaleSize = maxWidth / img.width;
-                        canvas.width = maxWidth;
-                        canvas.height = img.height * scaleSize;
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        tempWalletPhoto = canvas.toDataURL('image/jpeg', 0.6);
-                        
-                        label.innerText = "已讀取 (可儲存)";
-                        label.classList.add('text-nook-green', 'font-bold');
-                        btn.disabled = false;
-                        btn.classList.remove('btn-disabled');
-                        btn.innerText = editingExpenseId ? "更新" : "儲存";
-                    }
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        function addExpense() {
-            const item = document.getElementById('expense-item').value;
-            const jpy = document.getElementById('expense-jpy').value;
-            if(!item || !jpy) { alert("請輸入項目與金額"); return; }
-            
-            const expenseData = {
-                date: new Date().toLocaleDateString(),
-                item: item,
-                jpy: jpy,
-                twd: Math.round(jpy * appData.rate),
-                note: 'User Upload'
-            };
-
-            if (editingExpenseId) {
-                const idx = appData.expenses.findIndex(e => e.id === editingExpenseId);
-                if (idx !== -1) {
-                    appData.expenses[idx].item = item;
-                    appData.expenses[idx].jpy = parseInt(jpy);
-                    if (tempWalletPhoto) appData.expenses[idx].photo = tempWalletPhoto;
-                }
-                cancelEdit();
-            } else {
-                appData.expenses.unshift({
-                    id: Date.now(),
-                    item: item,
-                    jpy: parseInt(jpy),
-                    photo: tempWalletPhoto,
-                    date: expenseData.date
-                });
-                
-                if (!GAS_API_URL.includes("請在此填入")) {
-                    fetch(GAS_API_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({ action: 'add_expense', ...expenseData })
-                    }).catch(e => console.log("Sync Error", e));
-                }
-
-                document.getElementById('expense-item').value = '';
-                document.getElementById('expense-jpy').value = '';
-                resetPhotoUI();
-            }
-            document.getElementById('expense-photo').value = '';
-            saveData();
-            loadExpenses();
-        }
-        function editExpense(id) {
-            const exp = appData.expenses.find(e => e.id === id);
-            if (!exp) return;
-            editingExpenseId = id;
-            document.getElementById('expense-item').value = exp.item;
-            document.getElementById('expense-jpy').value = exp.jpy;
-            document.getElementById('expense-form-title').innerText = "編輯消費";
-            const btn = document.getElementById('save-expense-btn');
-            btn.innerText = "更新";
-            btn.classList.replace('bg-nook-dark', 'bg-nook-accent');
-            document.getElementById('cancel-edit-btn').classList.remove('hidden');
-            document.getElementById('expense-form-card').scrollIntoView({behavior: "smooth"});
-            const label = document.getElementById('photo-label');
-            label.innerText = "更換照片(選填)";
-            label.classList.remove('text-nook-green', 'font-bold');
-            tempWalletPhoto = null;
-        }
-        function cancelEdit() {
-            editingExpenseId = null;
             document.getElementById('expense-item').value = '';
             document.getElementById('expense-jpy').value = '';
-            document.getElementById('expense-form-title').innerText = "記一筆";
-            const btn = document.getElementById('save-expense-btn');
-            btn.innerText = "儲存";
-            btn.classList.replace('bg-nook-accent', 'bg-nook-dark');
-            btn.disabled = false;
-            btn.classList.remove('btn-disabled');
-            document.getElementById('cancel-edit-btn').classList.add('hidden');
             resetPhotoUI();
         }
-        function resetPhotoUI() {
-            const label = document.getElementById('photo-label');
-            label.innerText = "拍照/上傳";
-            label.classList.remove('text-nook-green', 'font-bold');
-            tempWalletPhoto = null;
-        }
-        function deleteExpense(id) {
-            if(confirm("確定刪除？")) {
-                appData.expenses = appData.expenses.filter(e => e.id !== id);
-                saveData();
-                loadExpenses();
-            }
-        }
-        function loadExpenses() {
-            const list = document.getElementById('expense-list');
-            if (appData.expenses.length === 0) { list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">無紀錄</div>'; return; }
-            let html = '';
-            appData.expenses.forEach(ex => {
-                const twd = Math.round(ex.jpy * appData.rate);
-                const photoHtml = ex.photo ? `<img src="${ex.photo}" onclick="showImageModal('${ex.photo}')" class="w-12 h-12 rounded-lg object-cover border border-gray-200 mr-3 cursor-pointer">` : '<div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mr-3 text-gray-300"><i class="fa-solid fa-receipt"></i></div>';
-                html += `<div class="bg-white p-3 rounded-xl flex items-center shadow-sm border border-gray-100 mb-2">
-                    ${photoHtml}
-                    <div class="flex-1 min-w-0 mr-2"><div class="font-bold text-gray-700 truncate">${ex.item}</div><div class="text-xs text-gray-400">${ex.date}</div></div>
-                    <div class="text-right mr-3"><div class="font-bold text-nook-dark">¥${ex.jpy}</div><div class="text-xs text-gray-400">≈ $${twd}</div></div>
-                    <div class="flex flex-col gap-2 pl-2 border-l border-gray-100">
-                        <button onclick="editExpense(${ex.id})" class="text-gray-400 hover:text-nook-green"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="deleteExpense(${ex.id})" class="text-gray-400 hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
-                    </div></div>`;
-            });
-            list.innerHTML = html;
-        }
-        function clearExpenses() { if(confirm("刪除所有紀錄？")) { appData.expenses = []; saveData(); loadExpenses(); } }
+        document.getElementById('expense-photo').value = '';
+        saveData();
+        loadExpenses();
+    }
 
-        // --- Render Helpers ---
-        function renderHeaderInfo() {
-            const container = document.getElementById('header-cards');
-            container.innerHTML = `
-            <div class="bg-[#FFF0F0] rounded-2xl p-5 mb-4 shadow-sm border border-[#FFE0E0]">
-                <div class="flex items-center gap-2 mb-2 text-[#D65A5A] font-bold text-lg"><i class="fa-solid fa-bell"></i> 集合資訊</div>
-                <div class="flex items-baseline gap-3 mb-1"><span class="text-3xl font-bold text-gray-800">06:30</span><span class="text-gray-600 font-bold">桃機一航廈</span></div>
-                <div class="flex justify-between items-end"><div class="text-sm text-gray-500">泰獅航空 2號櫃台</div><a href="https://www.google.com/maps/search/?api=1&query=桃園機場第一航廈" target="_blank" class="bg-white text-[#D65A5A] px-4 py-1.5 rounded-lg text-sm shadow-sm border border-[#FADEDE] font-bold btn-press"><i class="fa-solid fa-location-dot mr-1"></i> 導航</a></div>
-            </div>
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
-                <h3 class="text-[#B59868] font-bold text-lg mb-6 flex items-center"><i class="fa-solid fa-plane mr-2 transform -rotate-45"></i> 航班 (泰獅)</h3>
-                <div class="flex justify-between items-center mb-6">
-                    <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">TPE</div><div class="text-gray-400 text-sm">09:00</div></div>
-                    <div class="flex-1 px-2 text-center relative"><div class="text-xs text-gray-400 font-bold mb-1">SL398</div><div class="relative flex items-center justify-center py-2"><div class="h-[2px] bg-gray-200 w-full absolute border-b border-dashed border-gray-300"></div><i class="fa-solid fa-plane text-[#B59868] bg-white px-2 relative z-10 text-sm"></i></div><div class="text-xs text-gray-400">1/2 (五)</div></div>
-                    <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">NGO</div><div class="text-gray-400 text-sm">12:40</div></div>
-                </div>
-                <div class="border-b border-gray-100 my-4"></div>
-                <div class="flex justify-between items-center">
-                    <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">NGO</div><div class="text-gray-400 text-sm">13:40</div></div>
-                    <div class="flex-1 px-2 text-center relative"><div class="text-xs text-gray-400 font-bold mb-1">SL399</div><div class="relative flex items-center justify-center py-2"><div class="h-[2px] bg-gray-200 w-full absolute border-b border-dashed border-gray-300"></div><i class="fa-solid fa-plane text-[#B59868] bg-white px-2 relative z-10 text-sm transform rotate-180"></i></div><div class="text-xs text-gray-400">1/7 (三)</div></div>
-                    <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">TPE</div><div class="text-gray-400 text-sm">16:00</div></div>
-                </div>
-            </div>`;
-        }
-        function renderDayTabs() {
-            const container = document.getElementById('day-tabs');
-            let html = '';
-            appData.days.forEach((d, idx) => {
-                const activeClass = idx === currentDayIndex ? 'bg-nook-green text-white shadow-md' : 'bg-white text-gray-500 border border-gray-200';
-                html += `<button onclick="selectDay(${idx})" class="flex-shrink-0 px-4 py-2 rounded-xl transition-all ${activeClass}"><div class="text-xs font-bold">${d.day}</div><div class="text-[10px] opacity-80">${d.date.split(' ')[0]}</div></button>`;
-            });
-            container.innerHTML = html;
-        }
-        function selectDay(idx) { currentDayIndex = idx; renderDayTabs(); renderItinerary(); }
-        function renderItinerary() {
-            const container = document.getElementById('itinerary-container');
-            const dayData = appData.days[currentDayIndex];
-            let html = `<div class="text-center mb-4"><span class="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded-full"><i class="fa-solid fa-map-pin mr-1"></i>${dayData.location}</span></div><div id="sortable-list" class="space-y-4 pb-20">`;
-            dayData.activities.forEach((act, idx) => {
-                // 優先使用自訂連結，否則使用自動生成
-                const mapUrl = act.link ? act.link : `https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(act.city ? act.city + ' ' + act.title : act.title)}`;
-                const isHighlight = act.highlight ? 'border-l-4 border-nook-accent bg-orange-50' : '';
-                let imgHtml = act.image ? `<div class="mt-2 relative group"><img src="${act.image}" class="w-full h-32 object-cover rounded-lg shadow-sm">${isEditMode ? `<button onclick="removeImage('${dayData.id}', ${idx})" class="absolute top-1 right-1 bg-red-500 text-white w-6 h-6 rounded-full text-xs shadow-md"><i class="fa-solid fa-xmark"></i></button>` : ''}</div>` : (isEditMode ? `<div class="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-2 text-center"><label class="cursor-pointer block"><i class="fa-solid fa-camera text-gray-400"></i><span class="text-xs text-gray-400 block">上傳照片</span><input type="file" accept="image/*" class="hidden" onchange="uploadImage(this, '${dayData.id}', ${idx})"></label></div>` : '');
-                
-                if (isEditMode) {
-                    html += `
-                        <div class="bg-white rounded-xl p-3 border border-[#E0E5D5] shadow-sm relative pl-10" data-id="${idx}">
-                            <div class="drag-handle absolute left-0 top-0 bottom-0 w-8 flex items-center justify-center cursor-move text-gray-300 hover:text-gray-500 bg-gray-50 rounded-l-xl border-r border-gray-100"><i class="fa-solid fa-grip-vertical"></i></div>
-                            <button onclick="deleteActivity('${dayData.id}', ${idx})" class="absolute top-2 right-2 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
-                            <div class="space-y-2">
-                                <div class="flex gap-2">
-                                    <input type="text" class="edit-input w-20 font-mono text-sm" value="${act.time}" onchange="updateActivity('${dayData.id}', ${idx}, 'time', this.value)" placeholder="時間">
-                                    <input type="text" class="edit-input flex-1 font-bold text-gray-800" value="${act.title}" onchange="updateActivity('${dayData.id}', ${idx}, 'title', this.value)" placeholder="標題">
-                                </div>
-                                <div class="flex gap-2">
-                                    <input type="text" class="edit-input w-20 text-xs" value="${act.city || ''}" onchange="updateActivity('${dayData.id}', ${idx}, 'city', this.value)" placeholder="地區">
-                                    <input type="text" class="edit-input flex-1 text-xs text-gray-500" value="${act.desc || ''}" onchange="updateActivity('${dayData.id}', ${idx}, 'desc', this.value)" placeholder="備註/描述">
-                                </div>
-                                <div>
-                                    <input type="text" class="edit-input text-xs text-blue-500 w-full" value="${act.link || ''}" onchange="updateActivity('${dayData.id}', ${idx}, 'link', this.value)" placeholder="🔗 地圖連結 (選填)">
-                                </div>
-                            </div>
-                            ${imgHtml}
-                        </div>
-                    `;
-                } else {
-                    html += `<div class="relative pl-4" data-id="${idx}"><div class="absolute left-0 top-2 bottom-2 w-0.5 bg-gray-200"></div><div class="absolute left-[-4px] top-3 w-2.5 h-2.5 rounded-full bg-nook-green border-2 border-white shadow-sm"></div><div class="bg-white rounded-xl p-3 border border-[#E0E5D5] shadow-sm ${isHighlight} ml-2"><div class="flex justify-between items-start"><div class="flex items-center gap-2"><span class="font-mono text-nook-green font-bold text-sm bg-[#F7F4EB] px-2 rounded">${act.time}</span>${act.city ? `<span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded">${act.city}</span>` : ''}</div><a href="${mapUrl}" target="_blank" class="text-xs text-blue-500 hover:text-blue-700 flex items-center"><i class="fa-solid fa-location-dot mr-1"></i>地圖</a></div><h4 class="font-bold text-gray-800 mt-1 text-base">${act.type === 'transport' ? '<i class="fa-solid fa-train-subway text-gray-400 mr-1"></i>' : '<i class="fa-solid fa-camera text-gray-400 mr-1"></i>'} ${act.title}</h4>${act.desc ? `<p class="text-sm text-gray-500 mt-1 leading-relaxed">${act.desc}</p>` : ''}${imgHtml}</div></div>`;
-                }
-            });
-            html += `</div>`;
-            container.innerHTML = html;
-            if (isEditMode && Sortable) {
-                if (sortableInstance) sortableInstance.destroy();
-                sortableInstance = Sortable.create(document.getElementById('sortable-list'), { handle: '.drag-handle', animation: 150, onEnd: function (evt) { const day = appData.days[currentDayIndex]; const item = day.activities.splice(evt.oldIndex, 1)[0]; day.activities.splice(evt.newIndex, 0, item); saveData(); renderItinerary(); }});
-            }
-        }
-        
-        function toggleEditMode() {
-            isEditMode = !isEditMode;
-            const btn = document.getElementById('edit-btn');
-            const addBtn = document.getElementById('add-activity-btn');
+    function loadExpenses() {
+        const list = document.getElementById('expense-list');
+        if (appData.expenses.length === 0) { list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">無紀錄</div>'; return; }
+        let html = '';
+        appData.expenses.forEach(ex => {
+            const twd = Math.round(ex.jpy * appData.rate);
+            const userTag = ex.user ? `<span class="text-[10px] bg-gray-200 text-gray-600 px-1.5 rounded ml-1">${ex.user}</span>` : '';
+            const photoHtml = ex.photo ? `<img src="${ex.photo}" onclick="showImageModal('${ex.photo}')" class="w-12 h-12 rounded-lg object-cover border border-gray-200 mr-3 cursor-pointer">` : '<div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mr-3 text-gray-300"><i class="fa-solid fa-receipt"></i></div>';
             
-            // 修正：在完成時，按鈕改為綠底白字；編輯時，按鈕為白底灰字
-            if (isEditMode) {
-                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>完成';
-                btn.className = "bg-nook-green text-white px-4 py-1.5 rounded-full shadow-soft border border-nook-green font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[70px] justify-center";
-                addBtn.classList.remove('hidden');
-            } else {
-                btn.innerHTML = '<i class="fa-solid fa-pen mr-1"></i>編輯';
-                btn.className = "bg-white text-gray-600 px-4 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[70px] justify-center";
-                addBtn.classList.add('hidden');
-            }
-            renderItinerary();
-        }
+            html += `<div class="bg-white p-3 rounded-xl flex items-center shadow-sm border border-gray-100 mb-2">
+                ${photoHtml}
+                <div class="flex-1 min-w-0 mr-2">
+                    <div class="font-bold text-gray-700 truncate flex items-center">${ex.item} ${userTag}</div>
+                    <div class="text-xs text-gray-400">${ex.date}</div>
+                </div>
+                <div class="text-right mr-3"><div class="font-bold text-nook-dark">¥${ex.jpy}</div><div class="text-xs text-gray-400">≈ $${twd}</div></div>
+                <div class="flex flex-col gap-2 pl-2 border-l border-gray-100">
+                    <button onclick="deleteExpense(${ex.id})" class="text-gray-400 hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
+                </div></div>`;
+        });
+        list.innerHTML = html;
+    }
+    
+    function deleteExpense(id) { if(confirm("刪除？")) { appData.expenses = appData.expenses.filter(e => e.id !== id); saveData(); loadExpenses(); } }
+    function resetPhotoUI() { document.getElementById('photo-label').innerText = "照片"; document.getElementById('photo-label').classList.remove('text-nook-green'); tempWalletPhoto=null; }
+    function cancelEdit() { 
+        editingExpenseId = null;
+        document.getElementById('expense-item').value = '';
+        document.getElementById('expense-jpy').value = '';
+        document.getElementById('expense-form-title').innerHTML = '<i class="fa-solid fa-user-tag text-nook-accent mr-1"></i>記一筆';
+        const btn = document.getElementById('save-expense-btn');
+        btn.innerText = "儲存";
+        btn.classList.replace('bg-nook-accent', 'bg-nook-dark');
+        document.getElementById('cancel-edit-btn').classList.add('hidden');
+        resetPhotoUI();
+    }
 
-        function updateActivity(dayId, idx, field, value) { const day = appData.days.find(d => d.id === dayId); if (day) { day.activities[idx][field] = value; saveData(); } }
-        function addNewActivity() { const day = appData.days[currentDayIndex]; day.activities.push({ id: Date.now(), time: "00:00", title: "新行程", type: "spot", desc: "", city: "" }); saveData(); renderItinerary(); }
-        function deleteActivity(dayId, idx) { if(confirm('刪除？')) { const day = appData.days.find(d => d.id === dayId); day.activities.splice(idx, 1); saveData(); renderItinerary(); } }
-        function uploadImage(input, dayId, idx) { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = function(e) { const img = new Image(); img.src = e.target.result; img.onload = function() { const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const scale = 400 / img.width; canvas.width = 400; canvas.height = img.height * scale; ctx.drawImage(img, 0, 0, canvas.width, canvas.height); const day = appData.days.find(d => d.id === dayId); day.activities[idx].image = canvas.toDataURL('image/jpeg', 0.6); saveData(); renderItinerary(); } }; reader.readAsDataURL(input.files[0]); } }
-        function removeImage(dayId, idx) { const day = appData.days.find(d => d.id === dayId); delete day.activities[idx].image; saveData(); renderItinerary(); }
-        function loadChecklist() { const list = appData.checklist; const savedState = JSON.parse(localStorage.getItem('travelApp_check_state') || '{}'); let html = ''; list.forEach((item, i) => { const checked = savedState[i] ? 'checked' : ''; const style = savedState[i] ? 'line-through text-gray-400' : 'text-gray-700'; html += `<label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer"><input type="checkbox" onchange="toggleCheck(${i}, this)" ${checked} class="w-5 h-5 text-nook-green rounded border-gray-300"><span id="chk-${i}" class="${style}">${item}</span></label>`; }); document.getElementById('checklist-container').innerHTML = html; }
-        function toggleCheck(idx, cb) { const savedState = JSON.parse(localStorage.getItem('travelApp_check_state') || '{}'); savedState[idx] = cb.checked; localStorage.setItem('travelApp_check_state', JSON.stringify(savedState)); const el = document.getElementById(`chk-${idx}`); el.className = cb.checked ? 'line-through text-gray-400' : 'text-gray-700'; }
-        function showImageModal(src) { document.getElementById('modal-img').src = src; document.getElementById('image-modal').classList.remove('hidden'); }
-        function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
-        function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(tabId).classList.add('active'); window.scrollTo(0,0); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const map = {'view-plan':0, 'view-guide':1, 'view-wallet':2, 'view-lists':3, 'view-info':4}; document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active'); }
-        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:false}); }
-    </script>
+    // --- Checklist Logic (Editable) ---
+    function loadChecklist() { 
+        const list = appData.checklist || [];
+        const savedState = JSON.parse(localStorage.getItem('travelApp_check_state') || '{}'); 
+        let html = ''; 
+        
+        list.forEach((item, i) => { 
+            const checked = savedState[item] ? 'checked' : ''; 
+            const style = savedState[item] ? 'line-through text-gray-400' : 'text-gray-700'; 
+            
+            if (isEditMode) {
+                html += `
+                <div class="flex items-center gap-2 mb-2">
+                    <button onclick="deleteChecklistItem(${i})" class="text-red-400 text-sm px-2"><i class="fa-solid fa-minus-circle"></i></button>
+                    <input type="text" value="${item}" onchange="updateChecklistItem(${i}, this.value)" class="edit-input text-sm">
+                </div>`;
+            } else {
+                html += `
+                <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded cursor-pointer">
+                    <input type="checkbox" onchange="toggleCheck('${item}', this)" ${checked} class="w-5 h-5 text-nook-green rounded border-gray-300">
+                    <span id="chk-${i}" class="${style}">${item}</span>
+                </label>`;
+            }
+        }); 
+        document.getElementById('checklist-container').innerHTML = html; 
+    }
+
+    function toggleCheck(key, cb) { 
+        const savedState = JSON.parse(localStorage.getItem('travelApp_check_state') || '{}'); 
+        savedState[key] = cb.checked; 
+        localStorage.setItem('travelApp_check_state', JSON.stringify(savedState)); 
+        loadChecklist(); 
+    }
+    
+    function addChecklistItem() {
+        const newItem = prompt("輸入新物品名稱:");
+        if(newItem) {
+            appData.checklist.push(newItem);
+            saveData();
+            loadChecklist();
+        }
+    }
+    function deleteChecklistItem(idx) {
+        if(confirm("刪除此項目？")) {
+            appData.checklist.splice(idx, 1);
+            saveData();
+            loadChecklist();
+        }
+    }
+    function updateChecklistItem(idx, val) {
+        appData.checklist[idx] = val;
+        saveData();
+    }
+
+    // --- Itinerary & Render Helpers ---
+    function renderHeaderInfo() {
+        const container = document.getElementById('header-cards');
+        container.innerHTML = `
+        <div class="bg-white rounded-2xl p-4 mb-3 shadow-sm border border-gray-100 flex items-center justify-between">
+             <div class="flex items-center gap-3">
+                 <div class="w-10 h-10 rounded-full bg-nook-green flex items-center justify-center text-white font-bold"><i class="fa-solid fa-user-tie"></i></div>
+                 <div>
+                     <div class="text-xs text-gray-400">導遊 Guide</div>
+                     <div class="font-bold text-gray-700">林世豪 (Lin)</div>
+                 </div>
+             </div>
+             <div class="text-right">
+                 <a href="tel:0912576813" class="block text-sm font-bold text-blue-500"><i class="fa-solid fa-phone mr-1"></i>0912-576-813</a>
+                 <a href="tel:07032853517" class="block text-xs text-gray-400 mt-1">JP: 070-3285-3517</a>
+             </div>
+        </div>
+
+        <div class="bg-[#FFF0F0] rounded-2xl p-5 mb-4 shadow-sm border border-[#FFE0E0]">
+            <div class="flex items-center gap-2 mb-2 text-[#D65A5A] font-bold text-lg"><i class="fa-solid fa-bell"></i> 集合資訊</div>
+            <div class="flex items-baseline gap-3 mb-1"><span class="text-3xl font-bold text-gray-800">06:30</span><span class="text-gray-600 font-bold">桃機一航廈</span></div>
+            <div class="flex justify-between items-end"><div class="text-sm text-gray-500">泰獅航空 2號櫃台</div><a href="https://www.google.com/maps/search/?api=1&query=桃園機場第一航廈" target="_blank" class="bg-white text-[#D65A5A] px-4 py-1.5 rounded-lg text-sm shadow-sm border border-[#FADEDE] font-bold btn-press"><i class="fa-solid fa-location-dot mr-1"></i> 導航</a></div>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
+            <h3 class="text-[#B59868] font-bold text-lg mb-6 flex items-center"><i class="fa-solid fa-plane mr-2 transform -rotate-45"></i> 航班 (泰獅)</h3>
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">TPE</div><div class="text-gray-400 text-sm">09:00</div></div>
+                <div class="flex-1 px-2 text-center relative"><div class="text-xs text-gray-400 font-bold mb-1">SL398</div><div class="relative flex items-center justify-center py-2"><div class="h-[2px] bg-gray-200 w-full absolute border-b border-dashed border-gray-300"></div><i class="fa-solid fa-plane text-[#B59868] bg-white px-2 relative z-10 text-sm"></i></div><div class="text-xs text-gray-400">1/2 (五)</div></div>
+                <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">NGO</div><div class="text-gray-400 text-sm">12:40</div></div>
+            </div>
+            <div class="border-b border-gray-100 my-4"></div>
+            <div class="flex justify-between items-center">
+                <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">NGO</div><div class="text-gray-400 text-sm">13:40</div></div>
+                <div class="flex-1 px-2 text-center relative"><div class="text-xs text-gray-400 font-bold mb-1">SL399</div><div class="relative flex items-center justify-center py-2"><div class="h-[2px] bg-gray-200 w-full absolute border-b border-dashed border-gray-300"></div><i class="fa-solid fa-plane text-[#B59868] bg-white px-2 relative z-10 text-sm transform rotate-180"></i></div><div class="text-xs text-gray-400">1/7 (三)</div></div>
+                <div class="text-center w-1/4"><div class="text-3xl font-bold text-gray-800">TPE</div><div class="text-gray-400 text-sm">16:00</div></div>
+            </div>
+        </div>`;
+    }
+    
+    function renderDayTabs() {
+        const container = document.getElementById('day-tabs');
+        if(!appData.days) return; 
+        let html = '';
+        appData.days.forEach((d, idx) => {
+            const activeClass = idx === currentDayIndex ? 'bg-nook-green text-white shadow-md' : 'bg-white text-gray-500 border border-gray-200';
+            html += `<button onclick="selectDay(${idx})" class="flex-shrink-0 px-4 py-2 rounded-xl transition-all ${activeClass}"><div class="text-xs font-bold">${d.day}</div><div class="text-[10px] opacity-80">${d.date.split(' ')[0]}</div></button>`;
+        });
+        container.innerHTML = html;
+    }
+    function selectDay(idx) { currentDayIndex = idx; renderDayTabs(); renderItinerary(); }
+    
+    function renderItinerary() {
+        const container = document.getElementById('itinerary-container');
+        if(!appData.days) return;
+        const dayData = appData.days[currentDayIndex];
+        let html = `<div class="text-center mb-4"><span class="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded-full"><i class="fa-solid fa-map-pin mr-1"></i>${dayData.location}</span></div><div id="sortable-list" class="space-y-4 pb-20">`;
+        
+        if(!dayData.activities) dayData.activities = [];
+        
+        dayData.activities.forEach((act, idx) => {
+            const mapUrl = act.link ? act.link : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(act.city ? act.city + ' ' + act.title : act.title)}`;
+            const isHighlight = act.highlight ? 'border-l-4 border-nook-accent bg-orange-50' : '';
+            
+            // Image Logic
+            let imgHtml = '';
+            if (act.image) {
+                 imgHtml = `<div class="mt-2 relative group"><img src="${act.image}" class="w-full h-32 object-cover rounded-lg shadow-sm"></div>`;
+                 if(isEditMode) imgHtml = `<div class="mt-2 relative"><img src="${act.image}" class="w-full h-32 object-cover rounded-lg opacity-50"><button onclick="removeImage('${dayData.id}', ${idx})" class="absolute top-1 right-1 bg-red-500 text-white w-6 h-6 rounded-full"><i class="fa-solid fa-xmark"></i></button></div>`;
+            } else if (isEditMode) {
+                 imgHtml = `<div class="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-2 text-center"><label class="cursor-pointer block"><i class="fa-solid fa-camera text-gray-400"></i><input type="file" accept="image/*" class="hidden" onchange="uploadImage(this, '${dayData.id}', ${idx})"></label></div>`;
+            }
+
+            if (isEditMode) {
+                // Edit Template
+                 html += `
+                    <div class="bg-white rounded-xl p-3 border border-[#E0E5D5] shadow-sm relative pl-10" data-id="${idx}">
+                        <div class="drag-handle absolute left-0 top-0 bottom-0 w-8 flex items-center justify-center cursor-move text-gray-300 bg-gray-50 rounded-l-xl border-r border-gray-100"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <button onclick="deleteActivity('${dayData.id}', ${idx})" class="absolute top-2 right-2 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+                        <div class="space-y-2">
+                             <div class="flex gap-2"><input type="text" class="edit-input w-16 text-sm" value="${act.time}" onchange="updateActivity('${dayData.id}', ${idx}, 'time', this.value)"><input type="text" class="edit-input flex-1 font-bold" value="${act.title}" onchange="updateActivity('${dayData.id}', ${idx}, 'title', this.value)"></div>
+                             <div class="flex gap-2"><input type="text" class="edit-input w-16 text-xs" value="${act.city||''}" onchange="updateActivity('${dayData.id}', ${idx}, 'city', this.value)" placeholder="地點"><input type="text" class="edit-input flex-1 text-xs" value="${act.desc||''}" onchange="updateActivity('${dayData.id}', ${idx}, 'desc', this.value)" placeholder="描述"></div>
+                        </div>
+                        ${imgHtml}
+                    </div>`;
+            } else {
+                // View Template
+                html += `<div class="relative pl-4" data-id="${idx}"><div class="absolute left-0 top-2 bottom-2 w-0.5 bg-gray-200"></div><div class="absolute left-[-4px] top-3 w-2.5 h-2.5 rounded-full bg-nook-green border-2 border-white shadow-sm"></div><div class="bg-white rounded-xl p-3 border border-[#E0E5D5] shadow-sm ${isHighlight} ml-2"><div class="flex justify-between items-start"><div class="flex items-center gap-2"><span class="font-mono text-nook-green font-bold text-sm bg-[#F7F4EB] px-2 rounded">${act.time}</span>${act.city ? `<span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 rounded">${act.city}</span>` : ''}</div><a href="${mapUrl}" target="_blank" class="text-xs text-blue-500"><i class="fa-solid fa-location-dot"></i></a></div><h4 class="font-bold text-gray-800 mt-1 text-base">${act.title}</h4>${act.desc ? `<p class="text-sm text-gray-500 mt-1 leading-relaxed">${act.desc}</p>` : ''}${imgHtml}</div></div>`;
+            }
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+        if (isEditMode && Sortable) {
+            if (sortableInstance) sortableInstance.destroy();
+            sortableInstance = Sortable.create(document.getElementById('sortable-list'), { handle: '.drag-handle', animation: 150, onEnd: function (evt) { const day = appData.days[currentDayIndex]; const item = day.activities.splice(evt.oldIndex, 1)[0]; day.activities.splice(evt.newIndex, 0, item); saveData(); renderItinerary(); }});
+        }
+    }
+
+    function toggleEditMode() {
+        isEditMode = !isEditMode;
+        const btn = document.getElementById('edit-btn');
+        const addBtn = document.getElementById('add-activity-btn');
+        const checkControls = document.getElementById('checklist-controls');
+        
+        if (isEditMode) {
+            btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>完成';
+            btn.className = "bg-nook-green text-white px-4 py-1.5 rounded-full shadow-soft border border-nook-green font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[70px] justify-center";
+            addBtn.classList.remove('hidden');
+            if(checkControls) checkControls.classList.remove('hidden');
+        } else {
+            btn.innerHTML = '<i class="fa-solid fa-pen mr-1"></i>編輯';
+            btn.className = "bg-white text-gray-600 px-4 py-1.5 rounded-full shadow-soft border border-[#E0E5D5] font-bold active:scale-95 transition cursor-pointer text-xs flex items-center min-w-[70px] justify-center";
+            addBtn.classList.add('hidden');
+            if(checkControls) checkControls.classList.add('hidden');
+        }
+        renderItinerary();
+        loadChecklist(); 
+    }
+
+    // CRUD for Activities
+    function updateActivity(dayId, idx, field, value) { const day = appData.days.find(d => d.id === dayId); if (day) { day.activities[idx][field] = value; saveData(); } }
+    function addNewActivity() { const day = appData.days[currentDayIndex]; day.activities.push({ id: Date.now(), time: "00:00", title: "新行程", type: "spot", desc: "", city: "" }); saveData(); renderItinerary(); }
+    function deleteActivity(dayId, idx) { if(confirm('刪除？')) { const day = appData.days.find(d => d.id === dayId); day.activities.splice(idx, 1); saveData(); renderItinerary(); } }
+    function uploadImage(input, dayId, idx) { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = function(e) { const img = new Image(); img.src = e.target.result; img.onload = function() { const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const scale = 400 / img.width; canvas.width = 400; canvas.height = img.height * scale; ctx.drawImage(img, 0, 0, canvas.width, canvas.height); const day = appData.days.find(d => d.id === dayId); day.activities[idx].image = canvas.toDataURL('image/jpeg', 0.6); saveData(); renderItinerary(); } }; reader.readAsDataURL(input.files[0]); } }
+    function removeImage(dayId, idx) { const day = appData.days.find(d => d.id === dayId); delete day.activities[idx].image; saveData(); renderItinerary(); }
+    
+    // UI Helpers
+    function showImageModal(src) { document.getElementById('modal-img').src = src; document.getElementById('image-modal').classList.remove('hidden'); }
+    function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
+    function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(tabId).classList.add('active'); window.scrollTo(0,0); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const map = {'view-plan':0, 'view-guide':1, 'view-wallet':2, 'view-lists':3, 'view-info':4}; document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active'); }
+</script>
 </body>
 </html>
