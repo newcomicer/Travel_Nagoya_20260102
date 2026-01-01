@@ -127,15 +127,20 @@
         </div>
     </section>
 
-    <section id="view-guide" class="tab-content">
-         <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-4">
-            <h2 class="font-bold mb-3 text-nook-green">景點地圖快速查</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <a href="https://www.google.com/maps/search/?api=1&query=白川鄉合掌村" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-map-location-dot text-red-400 block mb-1 text-xl"></i>合掌村</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=金澤兼六園" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-brands fa-envira text-green-600 block mb-1 text-xl"></i>兼六園</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=新穗高纜車" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-cable-car text-blue-400 block mb-1 text-xl"></i>新穗高</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=名花之里" target="_blank" class="bg-gray-50 p-3 rounded-xl text-center text-sm text-gray-700 hover:bg-gray-100"><i class="fa-solid fa-lightbulb text-yellow-400 block mb-1 text-xl"></i>名花之里</a>
-            </div>
+    <!-- 記事本區塊 -->
+    <section id="view-notes" class="tab-content">
+        <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-4">
+             <div class="flex overflow-x-auto no-scrollbar gap-2 mb-4 pb-1" id="note-day-tabs"></div>
+             
+             <div class="mb-4">
+                 <textarea id="note-input" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl text-sm outline-none focus:border-nook-green resize-none" rows="3" placeholder="紀錄今天的趣事..."></textarea>
+                 <button onclick="addNote()" class="bg-nook-dark text-white w-full py-2 rounded-xl mt-2 font-bold shadow-sm btn-press text-sm">
+                     <i class="fa-solid fa-paper-plane mr-2"></i>發布筆記
+                 </button>
+             </div>
+
+             <h3 class="font-bold text-nook-green mb-3 flex items-center"><i class="fa-solid fa-comments mr-2"></i>記事留言板</h3>
+             <div id="note-list" class="space-y-3 min-h-[200px]"></div>
         </div>
     </section>
 
@@ -221,8 +226,8 @@
         <button onclick="switchTab('view-plan')" class="nav-item active flex flex-col items-center p-2 w-16 transition-all duration-300">
             <i class="fa-solid fa-calendar-days text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">行程</span>
         </button>
-        <button onclick="switchTab('view-guide')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
-            <i class="fa-solid fa-book-open text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">導覽</span>
+        <button onclick="switchTab('view-notes')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+            <i class="fa-solid fa-pen-to-square text-xl text-gray-400 mb-1"></i><span class="text-[10px] text-gray-400">筆記</span>
         </button>
         <button onclick="switchTab('view-wallet')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
             <div class="bg-nook-green rounded-full w-12 h-12 flex items-center justify-center -mt-6 border-4 border-[#F7F4EB] shadow-md">
@@ -257,6 +262,7 @@
         days: [
           {
             id: "d1", day: "D1", date: "01/02 (五)", location: "愛知縣",
+            journals: [],
             activities: [
               { id: "a1-1", time: "06:30", title: "桃機一航廈集合", type: "transport", city: "桃園", desc: "泰獅航空 2號櫃台集合 (導遊：林世豪)" },
               { id: "a1-2", time: "09:00", title: "搭乘泰獅 SL398", type: "transport", city: "桃園", desc: "飛往名古屋中部國際機場" },
@@ -267,6 +273,7 @@
           },
           {
             id: "d2", day: "D2", date: "01/03 (六)", location: "岐阜縣",
+            journals: [],
             activities: [
               { id: "a2-1", time: "09:00", title: "惠那峽展望台", type: "spot", city: "惠那", desc: "大自然侵蝕而形成的斷崖絕壁，奇岩怪石" },
               { id: "a2-2", time: "12:00", title: "馬籠宿或妻籠宿", type: "spot", city: "中津川", desc: "江戶時代宿驛風情，古街散策" },
@@ -275,14 +282,16 @@
           },
           {
             id: "d3", day: "D3", date: "01/04 (日)", location: "岐阜縣",
+            journals: [],
             activities: [
               { id: "a3-1", time: "09:00", title: "新穗高雙層纜車", type: "spot", city: "高山", highlight: true, desc: "日本最早雙層纜車，眺望阿爾卑斯山雪景 (白銀雪遊廣場)" },
               { id: "a3-2", time: "13:00", title: "飛驒高山小京都", type: "spot", city: "高山", desc: "上三之町散策 (古之町並)，米其林三星景點" },
-              { id: "a3-3", time: "17:00", title: "入住高山溫泉", type: "stay", city: "高山", desc: "住宿: Route INN Grantia 飛驒高山" }
+              { id: "a3-3", time: "17:00", title: "入住溫泉飯店", type: "stay", city: "高山", desc: "住宿: Route INN Grantia 飛驒高山" }
             ]
           },
           {
             id: "d4", day: "D4", date: "01/05 (一)", location: "北陸",
+            journals: [],
             activities: [
               { id: "a4-1", time: "09:00", title: "庄川峽遊船", type: "spot", city: "富山", desc: "搭船欣賞幽然深遂的溪谷與雪景" },
               { id: "a4-2", time: "12:00", title: "近江町市場", type: "food", city: "金澤", desc: "金澤廚房，海鮮巡禮 (午餐自理)" },
@@ -293,6 +302,7 @@
           },
           {
             id: "d5", day: "D5", date: "01/06 (二)", location: "三重縣",
+            journals: [],
             activities: [
               { id: "a5-1", time: "09:00", title: "白川鄉合掌村", type: "spot", city: "白川鄉", highlight: true, desc: "世界文化遺產，夢幻童話薑餅屋雪景" },
               { id: "a5-2", time: "13:00", title: "免稅店", type: "shopping", city: "名古屋", desc: "購物行程" },
@@ -303,6 +313,7 @@
           },
           {
             id: "d6", day: "D6", date: "01/07 (三)", location: "愛知縣",
+            journals: [],
             activities: [
               { id: "a6-1", time: "09:00", title: "自由活動", type: "spot", city: "名古屋", desc: "最後補貨或休息" },
               { id: "a6-2", time: "11:30", title: "前往中部國際機場", type: "transport", city: "常滑", desc: "辦理登機手續" },
@@ -392,6 +403,11 @@
         renderHeaderInfo();
         renderDayTabs();
         renderItinerary();
+        
+        // Note Init
+        renderNoteDayTabs();
+        renderNotes();
+
         loadChecklist();
         loadExpenses();
         document.getElementById('exchange-rate').value = appData.rate || 0.22;
@@ -447,15 +463,24 @@
         .then(data => {
             if (data.status === 'success' && data.appData) {
                 appData = data.appData;
-                if (!appData.checklist) appData.checklist = DEFAULT_DATA.checklist; // 確保有清單
+                
+                // Data Migration: Ensure structure
+                if (!appData.checklist) appData.checklist = DEFAULT_DATA.checklist;
+                appData.days.forEach(day => {
+                    if (!day.journals) day.journals = [];
+                });
+
                 saveData();
+                
+                // Re-render all views
                 renderItinerary();
                 renderDayTabs();
+                renderNoteDayTabs();
+                renderNotes();
                 loadChecklist();
                 
                 // Merge expenses logic if needed, currently we prioritize cloud expenses if fetched
                 if (data.expenses && data.expenses.length > 0) {
-                   // 雲端只有資料，沒有完整ID結構，這裡做個簡單 mapping 讓本地能用
                    appData.expenses = data.expenses.map((e, idx) => ({
                        id: Date.now() + idx, // Fake ID
                        item: e.item,
@@ -484,6 +509,10 @@
             if (!appData.expenses) appData.expenses = [];
             if (!appData.rate) appData.rate = 0.22;
             if (!appData.checklist) appData.checklist = DEFAULT_DATA.checklist;
+            // Migration check
+            appData.days.forEach(day => {
+                if (!day.journals) day.journals = [];
+            });
         } else {
             appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
             saveData();
@@ -583,7 +612,7 @@
         const list = document.getElementById('expense-list');
         if (appData.expenses.length === 0) { 
             list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">無紀錄</div>'; 
-            renderExpenseSummary(); // Even if empty, render (empty) summary
+            renderExpenseSummary(); 
             return; 
         }
         let html = '';
@@ -702,6 +731,83 @@
         appData.checklist[idx] = val;
         saveData();
     }
+    
+    // --- Journal / Notes Logic (New) ---
+    function renderNoteDayTabs() {
+        const container = document.getElementById('note-day-tabs');
+        if(!appData.days) return; 
+        let html = '';
+        appData.days.forEach((d, idx) => {
+            const activeClass = idx === currentDayIndex ? 'bg-nook-green text-white shadow-md' : 'bg-gray-100 text-gray-500 border border-gray-200';
+            html += `<button onclick="selectDay(${idx})" class="flex-shrink-0 px-4 py-2 rounded-xl transition-all ${activeClass}"><div class="text-xs font-bold">${d.day}</div></button>`;
+        });
+        container.innerHTML = html;
+    }
+    
+    function renderNotes() {
+        const container = document.getElementById('note-list');
+        const dayData = appData.days[currentDayIndex];
+        if(!dayData.journals || dayData.journals.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">今天還沒有筆記，來寫第一筆吧！</div>';
+            return;
+        }
+        
+        let html = '';
+        // sort by time desc
+        const sorted = [...dayData.journals].reverse();
+        
+        sorted.forEach(note => {
+            const isMe = note.user === currentUser;
+            const delBtn = isMe ? `<button onclick="deleteNote(${note.id})" class="text-gray-300 hover:text-red-400"><i class="fa-solid fa-times"></i></button>` : '';
+            
+            html += `
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-3">
+                <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-50">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-nook-green/20 text-nook-green flex items-center justify-center text-xs font-bold">${note.user.charAt(0).toUpperCase()}</div>
+                        <span class="font-bold text-gray-700 text-sm">${note.user}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] text-gray-400">${note.time}</span>
+                        ${delBtn}
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm whitespace-pre-wrap leading-relaxed">${note.content}</p>
+            </div>`;
+        });
+        container.innerHTML = html;
+    }
+    
+    function addNote() {
+        const input = document.getElementById('note-input');
+        const content = input.value.trim();
+        if(!content) return;
+        
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        
+        const newNote = {
+            id: Date.now(),
+            user: currentUser,
+            content: content,
+            time: timeStr
+        };
+        
+        if(!appData.days[currentDayIndex].journals) appData.days[currentDayIndex].journals = [];
+        appData.days[currentDayIndex].journals.push(newNote);
+        
+        input.value = '';
+        saveData();
+        renderNotes();
+    }
+    
+    function deleteNote(id) {
+        if(!confirm("刪除這則筆記？")) return;
+        const day = appData.days[currentDayIndex];
+        day.journals = day.journals.filter(n => n.id !== id);
+        saveData();
+        renderNotes();
+    }
 
     // --- Itinerary & Render Helpers ---
     function renderHeaderInfo() {
@@ -753,7 +859,15 @@
         });
         container.innerHTML = html;
     }
-    function selectDay(idx) { currentDayIndex = idx; renderDayTabs(); renderItinerary(); }
+    
+    function selectDay(idx) { 
+        currentDayIndex = idx; 
+        renderDayTabs(); 
+        renderItinerary();
+        // Also update note view if it's visible, or just update data
+        renderNoteDayTabs();
+        renderNotes();
+    }
     
     function renderItinerary() {
         const container = document.getElementById('itinerary-container');
@@ -832,7 +946,7 @@
     // UI Helpers
     function showImageModal(src) { document.getElementById('modal-img').src = src; document.getElementById('image-modal').classList.remove('hidden'); }
     function closeImageModal() { document.getElementById('image-modal').classList.add('hidden'); }
-    function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(tabId).classList.add('active'); window.scrollTo(0,0); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const map = {'view-plan':0, 'view-guide':1, 'view-wallet':2, 'view-lists':3, 'view-info':4}; document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active'); }
+    function switchTab(tabId) { document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active')); document.getElementById(tabId).classList.add('active'); window.scrollTo(0,0); document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active')); const map = {'view-plan':0, 'view-notes':1, 'view-wallet':2, 'view-lists':3, 'view-info':4}; document.querySelectorAll('.nav-item')[map[tabId]].classList.add('active'); }
 </script>
 </body>
 </html>
