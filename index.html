@@ -179,7 +179,10 @@
         </div>
 
         <h3 class="font-bold ml-2 mb-2 text-gray-600 text-lg">消費紀錄</h3>
-        <div id="expense-list" class="space-y-3 pb-10"></div>
+        <div id="expense-list" class="space-y-3"></div>
+
+        <h3 class="font-bold ml-2 mb-2 text-gray-600 text-lg mt-6">分帳統計</h3>
+        <div id="expense-summary" class="grid grid-cols-2 gap-3 pb-20"></div>
     </section>
 
     <section id="view-lists" class="tab-content">
@@ -240,7 +243,7 @@
     // ==========================================
     // --- 設定區 ---
     // ==========================================
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw2dL2WyiTVZ9W2E46PUCuAyF0IuCL0LGpc8OdF4VwxVgJqKtlb1o9Yc_4Ydz9gOyalVg/exec";
+    const GAS_API_URL = "請在此填入你的_GOOGLE_APPS_SCRIPT_URL";
 
     // ==========================================
     // --- 資料核心 ---
@@ -578,7 +581,11 @@
 
     function loadExpenses() {
         const list = document.getElementById('expense-list');
-        if (appData.expenses.length === 0) { list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">無紀錄</div>'; return; }
+        if (appData.expenses.length === 0) { 
+            list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">無紀錄</div>'; 
+            renderExpenseSummary(); // Even if empty, render (empty) summary
+            return; 
+        }
         let html = '';
         appData.expenses.forEach(ex => {
             const twd = Math.round(ex.jpy * appData.rate);
@@ -597,8 +604,37 @@
                 </div></div>`;
         });
         list.innerHTML = html;
+        renderExpenseSummary();
     }
     
+    function renderExpenseSummary() {
+        const container = document.getElementById('expense-summary');
+        if (!container) return;
+        
+        const totals = {};
+        appData.expenses.forEach(ex => {
+            const u = ex.user || '未知';
+            if (!totals[u]) totals[u] = { jpy: 0 };
+            totals[u].jpy += parseInt(ex.jpy || 0);
+        });
+        
+        let html = '';
+        if (Object.keys(totals).length === 0) {
+             html = '<div class="col-span-2 text-center text-gray-400 text-sm py-2">尚無統計</div>';
+        } else {
+            for (const [user, amount] of Object.entries(totals)) {
+                const twd = Math.round(amount.jpy * appData.rate);
+                html += `
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col items-center justify-center">
+                    <div class="font-bold text-gray-600 mb-1 text-sm"><i class="fa-solid fa-user-circle mr-1 text-nook-green"></i>${user}</div>
+                    <div class="font-mono font-bold text-lg text-nook-dark">¥${amount.jpy.toLocaleString()}</div>
+                    <div class="text-xs text-gray-400">≈ $${twd.toLocaleString()}</div>
+                </div>`;
+            }
+        }
+        container.innerHTML = html;
+    }
+
     function deleteExpense(id) { if(confirm("刪除？")) { appData.expenses = appData.expenses.filter(e => e.id !== id); saveData(); loadExpenses(); } }
     function resetPhotoUI() { document.getElementById('photo-label').innerText = "照片"; document.getElementById('photo-label').classList.remove('text-nook-green'); tempWalletPhoto=null; }
     function cancelEdit() { 
