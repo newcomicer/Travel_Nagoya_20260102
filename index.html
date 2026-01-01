@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>北陸名花之里之旅 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nook-bg': '#F7F4EB',
+                        'nook-green': '#88AB8E',
+                        'nook-dark': '#6B5B45',
+                        'nook-card': '#FFFFFF',
+                        'nook-accent': '#E76F51',
+                    },
+                    boxShadow: {
+                        'soft': '4px 4px 0px #E0E5D5',
+                        'soft-hover': '2px 2px 0px #E0E5D5',
+                    },
+                    fontFamily: {
+                        'rounded': ['"M PLUS Rounded 1c"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background-color: #F7F4EB;
+            /* 點狀紋理背景 */
+            background-image: radial-gradient(#E0E5D5 2px, transparent 2px);
+            background-size: 20px 20px;
+            color: #6B5B45;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 隱藏捲軸但保留功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 自定義按鈕點擊效果 */
+        .btn-press:active {
+            transform: scale(0.95);
+            box-shadow: 2px 2px 0px #E0E5D5 !important;
+            transform: translate(2px, 2px);
+        }
+
+        /* Tab 切換動畫 */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 底部導航選中樣式 */
+        .nav-item.active i {
+            color: #88AB8E;
+            transform: scale(1.1);
+        }
+        .nav-item.active span {
+            color: #88AB8E;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="pb-24">
+
+    <header class="sticky top-0 z-40 bg-[#F7F4EB]/95 backdrop-blur-sm px-6 py-4 border-b border-[#E0E5D5] shadow-sm">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-bold text-nook-green tracking-wide truncate">
+                <i class="fa-solid fa-plane-departure mr-2"></i>北陸名花之里6日
+            </h1>
+            <div id="clock" class="text-sm font-bold text-nook-dark bg-white px-3 py-1 rounded-full shadow-soft border border-[#E0E5D5]">
+                00:00
+            </div>
+        </div>
+    </header>
+
+    <main id="app" class="px-4 py-4 max-w-md mx-auto">
+        
+        <section id="view-plan" class="tab-content active">
+            <div class="bg-white rounded-2xl p-5 mb-6 border border-[#E0E5D5] shadow-soft relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-full opacity-50"></div>
+                
+                <h2 class="text-lg font-bold mb-3 border-b-2 border-[#F7F4EB] pb-2 text-nook-green">
+                    <i class="fa-solid fa-address-card mr-2"></i>團體資訊
+                </h2>
+                <div class="space-y-2 text-sm">
+                     <div class="flex items-start">
+                        <span class="font-bold min-w-[50px] text-nook-dark">導遊:</span>
+                        <span>林世豪 先生 <br><a href="tel:0912576813" class="text-blue-500 underline"><i class="fa-solid fa-phone-flip text-xs"></i> 0912-576-813</a></span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold min-w-[50px] text-nook-dark">航班:</span>
+                        <div id="flight-info"></div>
+                    </div>
+                </div>
+                
+                <div class="mt-3 pt-3 border-t border-dashed border-gray-200">
+                    <span class="text-xs font-bold bg-nook-green text-white px-2 py-1 rounded">住宿列表</span>
+                    <div id="hotel-info" class="mt-2 text-xs leading-5 text-gray-600"></div>
+                </div>
+            </div>
+
+            <div id="itinerary-container">
+                </div>
+        </section>
+
+        <section id="view-guide" class="tab-content">
+            <div class="bg-white rounded-2xl p-0 overflow-hidden border border-[#E0E5D5] shadow-soft mb-6">
+                <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shirakawa-go" class="w-full h-40 object-cover">
+                <div class="p-5">
+                    <span class="bg-nook-green text-white text-xs px-2 py-1 rounded-full mb-2 inline-block">World Heritage</span>
+                    <h2 class="text-xl font-bold mb-2">白川鄉合掌村</h2>
+                    <p class="text-sm text-gray-600 leading-7 mb-4">
+                        童話般的薑餅屋世界。當地人使用稻草蘆葦以「合掌形」方式建築屋頂，是為了因應嚴冬多雪的氣候。
+                        <br><br>
+                        <span class="font-bold text-nook-dark">拍照重點：</span>記得前往展望台，可以拍下整個村落被白雪覆蓋的夢幻全景。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-0 overflow-hidden border border-[#E0E5D5] shadow-soft mb-6">
+                 <img src="https://images.unsplash.com/photo-1620392332611-3047248386a3?q=80&w=800&auto=format&fit=crop" alt="Kenrokuen" class="w-full h-40 object-cover">
+                 <div class="p-5">
+                    <span class="bg-nook-accent text-white text-xs px-2 py-1 rounded-full mb-2 inline-block">Top 3 Garden</span>
+                    <h2 class="text-xl font-bold mb-2">金澤兼六園</h2>
+                    <p class="text-sm text-gray-600 leading-7 mb-4">
+                        日本三大名園之一。冬季最著名的景觀是「雪吊（Yukitsuri）」，為了防止厚重積雪壓垮松樹，園丁會用繩索呈現放射狀拉起樹枝，形成幾何圖形般的美景。
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-[#E0E5D5] shadow-soft mb-6">
+                <h3 class="font-bold mb-3 text-nook-green"><i class="fa-solid fa-map-location-dot mr-2"></i>地圖：白川鄉</h3>
+                <div class="w-full h-48 bg-gray-100 rounded-xl overflow-hidden">
+                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=136.9030%2C36.2530%2C136.9090%2C36.2590&layer=mapnik"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-wallet" class="tab-content">
+            <div class="bg-nook-green p-5 rounded-2xl shadow-soft text-white mb-6">
+                <div class="flex justify-between items-end mb-2">
+                    <label class="text-xs opacity-80">日幣匯率 (可修改)</label>
+                    <div class="flex items-center">
+                        <span class="text-xs mr-1">x</span>
+                        <input type="number" id="exchange-rate" value="0.22" step="0.001" class="w-16 text-right text-nook-dark rounded px-1 py-0.5 text-sm font-bold">
+                    </div>
+                </div>
+                
+                <div class="bg-white/20 rounded-xl p-3 mb-3">
+                    <input type="text" id="calc-input" placeholder="輸入算式 (如 500+200*3)" class="w-full bg-transparent text-right text-white text-xl font-mono placeholder-white/50 outline-none">
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <div class="text-3xl font-bold font-mono">
+                        ≈ <span id="calc-result-twd">0</span> <span class="text-sm">TWD</span>
+                    </div>
+                    <button onclick="calculate()" class="bg-white text-nook-green px-4 py-2 rounded-lg font-bold shadow-sm btn-press">
+                        計算
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6">
+                <h3 class="font-bold mb-3 text-gray-700">記一筆</h3>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <input type="text" id="expense-item" placeholder="品項 (如: 拉麵)" class="border border-gray-200 rounded-lg p-2 text-sm outline-none focus:border-nook-green">
+                    <input type="number" id="expense-jpy" placeholder="日幣金額" class="border border-gray-200 rounded-lg p-2 text-sm outline-none focus:border-nook-green">
+                </div>
+                
+                <div class="flex gap-3">
+                    <label class="flex-1 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg text-gray-400 cursor-pointer hover:bg-gray-50 h-10 transition">
+                        <i class="fa-solid fa-camera mr-2"></i>
+                        <span id="photo-label" class="text-xs">拍照/上傳</span>
+                        <input type="file" id="expense-photo" accept="image/*" class="hidden" onchange="handlePhotoSelect(this)">
+                    </label>
+                    <button onclick="addExpense()" class="flex-1 bg-nook-dark text-white rounded-lg font-bold shadow-soft btn-press h-10">
+                        儲存
+                    </button>
+                </div>
+            </div>
+
+            <h3 class="font-bold ml-2 mb-2 text-gray-600">消費紀錄</h3>
+            <div id="expense-list" class="space-y-3 pb-10">
+                <div class="text-center text-gray-400 text-sm py-4">目前沒有紀錄</div>
+            </div>
+            
+            <button onclick="clearExpenses()" class="w-full mt-4 text-xs text-gray-400 underline">清除所有記帳資料</button>
+        </section>
+
+        <section id="view-lists" class="tab-content">
+            <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft mb-6">
+                <h3 class="font-bold mb-3 text-nook-green"><i class="fa-solid fa-clipboard-check mr-2"></i>行前準備 & 注意事項</h3>
+                <div id="checklist-container" class="space-y-2">
+                    </div>
+            </div>
+
+            <div class="bg-[#FFFDF5] rounded-2xl p-5 border border-[#E0E5D5] shadow-soft relative" style="background-image: linear-gradient(#E0E5D5 1px, transparent 1px); background-size: 100% 24px;">
+                <h3 class="font-bold mb-1 text-nook-dark"><i class="fa-solid fa-pen-nib mr-2"></i>備忘錄</h3>
+                <p class="text-xs text-gray-400 mb-3">輸入網址會自動變成按鈕喔！</p>
+                <textarea id="memo-area" class="w-full bg-transparent border-none outline-none text-sm leading-6 min-h-[150px] text-gray-700 resize-none" placeholder="在這裡記下任何事情..."></textarea>
+                <div id="memo-links" class="mt-3 flex flex-wrap gap-2"></div>
+            </div>
+            <button onclick="saveMemo()" class="mt-3 w-full bg-nook-green text-white py-2 rounded-xl font-bold shadow-soft btn-press">儲存備忘錄</button>
+        </section>
+
+        <section id="view-info" class="tab-content">
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <a href="https://www.jma.go.jp/bosai/forecast/" target="_blank" class="bg-blue-50 p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
+                    <i class="fa-solid fa-cloud-sun text-3xl text-blue-400 mb-2"></i>
+                    <span class="font-bold text-gray-700">日本氣象廳</span>
+                    <span class="text-xs text-gray-400">查詢天氣</span>
+                </a>
+                <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="bg-purple-50 p-4 rounded-2xl border border-purple-100 shadow-sm flex flex-col items-center justify-center text-center btn-press">
+                    <i class="fa-solid fa-qrcode text-3xl text-purple-500 mb-2"></i>
+                    <span class="font-bold text-gray-700">Visit Japan</span>
+                    <span class="text-xs text-gray-400">入境填寫</span>
+                </a>
+            </div>
+
+            <div class="bg-red-50 rounded-2xl p-5 border border-red-100 shadow-sm mb-6">
+                <h3 class="font-bold text-red-500 mb-3"><i class="fa-solid fa-triangle-exclamation mr-2"></i>緊急聯絡</h3>
+                <ul class="text-sm space-y-2 text-gray-700">
+                    <li><span class="font-bold w-20 inline-block">導遊手機:</span> 0912-576-813</li>
+                    <li><span class="font-bold w-20 inline-block">導遊日本:</span> 070-3285-3517</li>
+                    <li><span class="font-bold w-20 inline-block">海外急難:</span> +886-2-2563-6292</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 border border-[#E0E5D5] shadow-soft">
+                <h3 class="font-bold text-gray-700 mb-3">⚠️ 日本旅遊須知</h3>
+                <ul class="text-sm space-y-3 text-gray-600 list-disc pl-4">
+                    <li>電壓：100V (雙平腳插座)，與台灣類似。</li>
+                    <li>時差：日本比台灣快 1 小時。</li>
+                    <li>禮儀：公共場所請勿邊走邊吃，大眾運輸上請勿講電話。</li>
+                    <li>入境：禁止攜帶肉類製品、生鮮水果入境日本。</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur border-t border-[#E0E5D5] pb-safe pt-2 px-2 z-50">
+        <div class="flex justify-around items-center max-w-md mx-auto">
+            <button onclick="switchTab('view-plan')" class="nav-item active flex flex-col items-center p-2 w-16 transition-all duration-300">
+                <i class="fa-solid fa-calendar-days text-xl text-gray-400 mb-1 transition-colors"></i>
+                <span class="text-[10px] text-gray-400">行程</span>
+            </button>
+            <button onclick="switchTab('view-guide')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+                <i class="fa-solid fa-book-open text-xl text-gray-400 mb-1 transition-colors"></i>
+                <span class="text-[10px] text-gray-400">導覽</span>
+            </button>
+            <button onclick="switchTab('view-wallet')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+                <div class="bg-nook-green rounded-full w-12 h-12 flex items-center justify-center -mt-6 border-4 border-[#F7F4EB] shadow-md">
+                    <i class="fa-solid fa-wallet text-xl text-white"></i>
+                </div>
+            </button>
+            <button onclick="switchTab('view-lists')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+                <i class="fa-solid fa-list-check text-xl text-gray-400 mb-1 transition-colors"></i>
+                <span class="text-[10px] text-gray-400">清單</span>
+            </button>
+            <button onclick="switchTab('view-info')" class="nav-item flex flex-col items-center p-2 w-16 transition-all duration-300">
+                <i class="fa-solid fa-circle-info text-xl text-gray-400 mb-1 transition-colors"></i>
+                <span class="text-[10px] text-gray-400">資訊</span>
+            </button>
+        </div>
+        <div class="h-4 w-full"></div> 
+    </nav>
+
+    <script>
+        // ==========================================
+        // --- 使用者資料設定區 (Updated from PDF) ---
+        // ==========================================
+        
+        const TRIP_DATA = {
+            // 
+            flight: `
+                去程: 泰獅 SL398 09:00 (TPE) -> 12:40 (NGO)<br>
+                回程: 泰獅 SL399 13:40 (NGO) -> 16:00 (TPE)
+            `,
+            // 
+            hotel: `
+                D1: 名古屋希爾頓酒店<br>
+                D2: 御岳 Golf & Resort Hotel<br>
+                D3: Route INN Grantia 飛驒高山<br>
+                D4: 金澤 T-MARK HOTEL<br>
+                D5: 名古屋 Centmain 飯店
+            `,
+            // 
+            checklist: [
+                "護照 (有效期6個月以上)", 
+                "行動電源 (必須放隨身行李)", 
+                "鋰電池 (必須放隨身行李)", 
+                "液體 >100ml (必須託運)",
+                "保暖衣物 (圍巾、手套、帽子)", 
+                "日幣現金", 
+                "個人常備藥品",
+                "牙刷牙膏 (建議自備)"
+            ],
+            // 每日行程 
+            days: [
+                {
+                    day: "D1",
+                    date: "01/02 (五)",
+                    activities: [
+                        { time: "06:30", title: "桃機一航廈泰獅櫃台集合", type: "transport", highlight: true, desc: "集合找導遊: 林世豪" },
+                        { time: "09:00", title: "搭機飛往名古屋 (SL398)", type: "transport" },
+                        { time: "12:40", title: "抵達中部國際機場", type: "transport" },
+                        { time: "Afternoon", title: "名古屋市區 / 飯店 Check-in", type: "stay", desc: "名古屋希爾頓酒店" }
+                    ]
+                },
+                {
+                    day: "D2",
+                    date: "01/03 (六)",
+                    activities: [
+                        { time: "Morning", title: "惠那峽展望台", type: "spot", desc: "欣賞斷崖絕壁與奇岩怪石" },
+                        { time: "Noon", title: "馬籠宿 / 妻籠宿", type: "spot", desc: "江戶時代宿場町散策" },
+                        { time: "Evening", title: "溫泉鄉住宿", type: "stay", desc: "享用溫泉與會席料理" }
+                    ]
+                },
+                {
+                    day: "D3",
+                    date: "01/04 (日)",
+                    activities: [
+                        { time: "Morning", title: "新穗高雙層空中纜車", type: "spot", highlight: true, desc: "日本最早雙層纜車，眺望阿爾卑斯山雪景" },
+                        { time: "Afternoon", title: "飛驒高山 (上三之町)", type: "spot", desc: "米其林三星景點，古之町並散策" },
+                        { time: "Night", title: "飛驒高山溫泉", type: "stay" }
+                    ]
+                },
+                {
+                    day: "D4",
+                    date: "01/05 (一)",
+                    activities: [
+                        { time: "Morning", title: "庄川峽遊船", type: "spot", desc: "雪見遊船，欣賞溪谷風情" },
+                        { time: "Noon", title: "近江町市場", type: "food", desc: "金澤廚房，海鮮巡禮" },
+                        { time: "Afternoon", title: "兼六園 & 傘松雪吊", type: "spot", highlight: true, desc: "日本三大名園之一" },
+                        { time: "Evening", title: "東茶屋街", type: "spot", desc: "江戶時代茶屋街散策" }
+                    ]
+                },
+                {
+                    day: "D5",
+                    date: "01/06 (二)",
+                    activities: [
+                        { time: "Morning", title: "白川鄉合掌村", type: "spot", highlight: true, desc: "世界文化遺產，童話薑餅屋雪景" },
+                        { time: "Afternoon", title: "三井 OUTLET PARK", type: "shopping", desc: "爵士之夢長島，瘋狂血拼" },
+                        { time: "Night", title: "名花之里夢幻點燈", type: "spot", desc: "日本最大規模 LED 彩燈慶典" }
+                    ]
+                },
+                {
+                    day: "D6",
+                    date: "01/07 (三)",
+                    activities: [
+                        { time: "Morning", title: "自由活動", type: "spot" },
+                        { time: "11:30", title: "前往中部國際機場", type: "transport" },
+                        { time: "13:40", title: "搭機返台 (SL399)", type: "transport" },
+                        { time: "16:00", title: "抵達桃園機場", type: "transport" }
+                    ]
+                }
+            ]
+        };
+
+        // ==========================================
+        // --- 核心邏輯 (以下建議不要隨意更動) ---
+        // ==========================================
+
+        // 1. 初始化與渲染
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTripInfo();
+            renderItinerary();
+            loadChecklist();
+            loadExpenses();
+            loadMemo();
+            updateClock();
+            setInterval(updateClock, 1000);
+        });
+
+        // 2. 渲染行程表
+        function renderTripInfo() {
+            document.getElementById('flight-info').innerHTML = TRIP_DATA.flight;
+            document.getElementById('hotel-info').innerHTML = TRIP_DATA.hotel;
+        }
+
+        function renderItinerary() {
+            const container = document.getElementById('itinerary-container');
+            let html = '';
+
+            TRIP_DATA.days.forEach((day, index) => {
+                html += `
+                <div class="mb-8 relative">
+                    <div class="sticky top-[70px] z-10 inline-block bg-nook-dark text-white px-4 py-1 rounded-full text-sm font-bold shadow-md mb-4 ml-2">
+                        ${day.day} <span class="font-normal opacity-80 ml-1">${day.date}</span>
+                    </div>
+                    
+                    <div class="border-l-2 border-[#E0E5D5] ml-6 space-y-6 pb-2">
+                `;
+
+                day.activities.forEach(act => {
+                    const isHighlight = act.highlight ? 'border-l-4 border-nook-accent bg-orange-50' : '';
+                    const icon = getIconByType(act.type);
+                    
+                    html += `
+                        <div class="relative pl-6">
+                            <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-white border-4 border-nook-green box-content"></div>
+                            
+                            <div class="bg-white rounded-xl p-3 border border-[#E0E5D5] shadow-sm ${isHighlight}">
+                                <div class="flex justify-between items-start">
+                                    <span class="font-mono text-nook-green font-bold text-sm bg-[#F7F4EB] px-2 rounded">${act.time}</span>
+                                    ${act.link ? `<a href="${act.link}" target="_blank" class="text-xs text-blue-500 hover:underline"><i class="fa-solid fa-location-dot"></i> 地圖</a>` : ''}
+                                </div>
+                                <h4 class="font-bold text-gray-800 mt-1">${icon} ${act.title}</h4>
+                                ${act.desc ? `<p class="text-xs text-gray-500 mt-1 leading-5">${act.desc}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function getIconByType(type) {
+            switch(type) {
+                case 'transport': return '<i class="fa-solid fa-train-subway text-gray-400 mr-1"></i>';
+                case 'stay': return '<i class="fa-solid fa-bed text-gray-400 mr-1"></i>';
+                case 'spot': return '<i class="fa-solid fa-camera text-gray-400 mr-1"></i>';
+                case 'shopping': return '<i class="fa-solid fa-bag-shopping text-gray-400 mr-1"></i>';
+                case 'food': return '<i class="fa-solid fa-utensils text-gray-400 mr-1"></i>';
+                default: return '';
+            }
+        }
+
+        // 3. Tab 切換邏輯
+        function switchTab(tabId) {
+            // 隱藏所有內容
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // 顯示目標內容
+            document.getElementById(tabId).classList.add('active');
+            
+            // 更新底部按鈕樣式
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            // 簡單處理：根據 index 對應 (這部分為了簡單寫死對應關係)
+            const indexMap = { 'view-plan':0, 'view-guide':1, 'view-wallet':2, 'view-lists':3, 'view-info':4 };
+            document.querySelectorAll('.nav-item')[indexMap[tabId]].classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // 4. Wallet: 計算機
+        function calculate() {
+            const input = document.getElementById('calc-input').value;
+            const rate = parseFloat(document.getElementById('exchange-rate').value);
+            const resultDisplay = document.getElementById('calc-result-twd');
+            
+            try {
+                const formula = input.replace(/x/g, '*').replace(/X/g, '*');
+                if (!/^[0-9+\-*/().\s]*$/.test(formula)) {
+                    alert("請輸入正確的數字與算式");
+                    return;
+                }
+                
+                const jpyTotal = eval(formula);
+                const twdTotal = Math.round(jpyTotal * rate);
+                
+                resultDisplay.innerText = twdTotal.toLocaleString();
+                document.getElementById('calc-input').value = jpyTotal;
+                
+            } catch (e) {
+                alert("算式錯誤");
+            }
+        }
+
+        // 5. Wallet: 記帳 + 照片壓縮存檔
+        let tempPhotoBase64 = null;
+
+        function handlePhotoSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // 壓縮圖片
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 設定縮圖尺寸 (最大寬度 300px)
+                        const maxWidth = 300;
+                        const scaleSize = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scaleSize;
+                        
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // 轉為 Base64 (品質 0.5)
+                        tempPhotoBase64 = canvas.toDataURL('image/jpeg', 0.5);
+                        document.getElementById('photo-label').innerText = "已選取";
+                        document.getElementById('photo-label').classList.add('text-nook-green', 'font-bold');
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function addExpense() {
+            const item = document.getElementById('expense-item').value;
+            const jpy = document.getElementById('expense-jpy').value;
+            
+            if(!item || !jpy) {
+                alert("請輸入項目與金額");
+                return;
+            }
+
+            const expense = {
+                id: Date.now(),
+                item: item,
+                jpy: parseInt(jpy),
+                photo: tempPhotoBase64,
+                date: new Date().toLocaleDateString()
+            };
+
+            const expenses = JSON.parse(localStorage.getItem('travelApp_expenses') || '[]');
+            expenses.unshift(expense); // 新的在最前
+            localStorage.setItem('travelApp_expenses', JSON.stringify(expenses));
+
+            // Reset Form
+            document.getElementById('expense-item').value = '';
+            document.getElementById('expense-jpy').value = '';
+            document.getElementById('photo-label').innerText = "拍照/上傳";
+            document.getElementById('photo-label').classList.remove('text-nook-green', 'font-bold');
+            tempPhotoBase64 = null;
+            
+            loadExpenses();
+        }
+
+        function loadExpenses() {
+            const list = document.getElementById('expense-list');
+            const expenses = JSON.parse(localStorage.getItem('travelApp_expenses') || '[]');
+            const rate = parseFloat(document.getElementById('exchange-rate').value);
+
+            if (expenses.length === 0) {
+                list.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">目前沒有紀錄</div>';
+                return;
+            }
+
+            let html = '';
+            expenses.forEach(ex => {
+                const twd = Math.round(ex.jpy * rate);
+                html += `
+                    <div class="bg-white p-3 rounded-xl flex items-center shadow-sm border border-gray-100">
+                        ${ex.photo ? `<img src="${ex.photo}" class="w-12 h-12 rounded-lg object-cover border border-gray-200 mr-3">` : '<div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center mr-3 text-gray-300"><i class="fa-solid fa-receipt"></i></div>'}
+                        <div class="flex-1">
+                            <div class="font-bold text-gray-700">${ex.item}</div>
+                            <div class="text-xs text-gray-400">${ex.date}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-nook-dark">¥${ex.jpy}</div>
+                            <div class="text-xs text-gray-400">≈ $${twd}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+        
+        function clearExpenses() {
+            if(confirm("確定要刪除所有記帳紀錄嗎？無法復原喔！")) {
+                localStorage.removeItem('travelApp_expenses');
+                loadExpenses();
+            }
+        }
+
+        // 6. Lists: CheckList & Memo
+        function loadChecklist() {
+            const container = document.getElementById('checklist-container');
+            const savedState = JSON.parse(localStorage.getItem('travelApp_checklist_state') || '{}');
+            
+            let html = '';
+            TRIP_DATA.checklist.forEach((item, idx) => {
+                const isChecked = savedState[idx] ? 'checked' : '';
+                const textStyle = savedState[idx] ? 'text-gray-400 line-through' : 'text-gray-700';
+                
+                html += `
+                    <label class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-nook-green focus:ring-nook-green" 
+                            onchange="toggleCheck(${idx}, this)" ${isChecked}>
+                        <span class="${textStyle} transition-all duration-200" id="check-text-${idx}">${item}</span>
+                    </label>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleCheck(idx, checkbox) {
+            const savedState = JSON.parse(localStorage.getItem('travelApp_checklist_state') || '{}');
+            savedState[idx] = checkbox.checked;
+            localStorage.setItem('travelApp_checklist_state', JSON.stringify(savedState));
+            
+            const textEl = document.getElementById(`check-text-${idx}`);
+            if(checkbox.checked) {
+                textEl.classList.add('text-gray-400', 'line-through');
+                textEl.classList.remove('text-gray-700');
+            } else {
+                textEl.classList.remove('text-gray-400', 'line-through');
+                textEl.classList.add('text-gray-700');
+            }
+        }
+
+        function loadMemo() {
+            const memo = localStorage.getItem('travelApp_memo') || '';
+            document.getElementById('memo-area').value = memo;
+            parseLinks(memo);
+        }
+
+        function saveMemo() {
+            const memo = document.getElementById('memo-area').value;
+            localStorage.setItem('travelApp_memo', memo);
+            parseLinks(memo);
+            alert('備忘錄已儲存！');
+        }
+
+        function parseLinks(text) {
+            const container = document.getElementById('memo-links');
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const matches = text.match(urlRegex);
+            
+            if(matches) {
+                let html = '';
+                matches.forEach(url => {
+                    let display = url.length > 20 ? url.substring(0, 20) + '...' : url;
+                    html += `<a href="${url}" target="_blank" class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs hover:bg-blue-200 truncate max-w-full inline-block"><i class="fa-solid fa-link mr-1"></i>${display}</a>`;
+                });
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '';
+            }
+        }
+
+        // 7. 時鐘
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clock').innerText = timeString;
+        }
+
+    </script>
+</body>
+</html>
